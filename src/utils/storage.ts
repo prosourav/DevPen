@@ -1,6 +1,5 @@
 class Storage {
   save<T>(key: string, value: T): void {
-    console.log("called", value);
     localStorage.setItem(key, JSON.stringify(value));
   }
 

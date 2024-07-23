@@ -1,7 +1,6 @@
 import './index.scss';
 import PlayGround from '../../assets/code.png';
-import Folder from './components/folder';
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useState, lazy, Suspense } from 'react';
 import { PlaygroundContext } from '../../data/playground-provider';
 import { createPortal } from 'react-dom';
 import Modal from './components/modals';
@@ -9,6 +8,7 @@ import { ModalContext } from '../../data/modal-provider';
 import { DirectoryContext } from '../../data/directory-info-provider';
 import { createDirectory } from '../../utils/createDirectory';
 
+const Folder = lazy(() => import('./components/folder'));
 
 interface FileType {
   [key: string]: {
@@ -27,21 +27,39 @@ interface PlaygroundContextType {
   updateFolders: (folders: FolderType) => void;
 }
 
-
 function Home() {
   const [modalContainer, setModalContainer] = useState<HTMLElement | null>(null);
   const { folders, updateFolders } = useContext<PlaygroundContextType>(PlaygroundContext);
+  const [info, setInfo] = useState('');
   const modalFeatures = useContext(ModalContext);
   const { pointer } = useContext(DirectoryContext);
-
-
 
   useEffect(() => {
     setModalContainer(document.getElementById('modals'));
   }, []);
 
+  useEffect(() => {
+    if (modalFeatures.activateModal === 'delete' || modalFeatures.activateModal === 'edit') {
+      setInfo(pointer.includes('-') ? pointer.split('-')[1] : pointer);
+    }
+  }, [modalFeatures.activateModal, pointer]);
+
   const handleOpen = () => modalFeatures.openModal('create');
   const handleFolder = () => modalFeatures.openModal('create-folder');
+
+  const deleteItem = () => {
+    if (pointer.includes('-')) {
+      const [folderKey, file] = [pointer.split('-')[0], pointer.split('-')[1]];
+      const clonedFolders = { ...folders };
+      const selectedFolder = clonedFolders[folderKey];
+
+      delete selectedFolder[file];
+      return updateFolders(clonedFolders);
+    }
+    const clonedFolders = { ...folders };
+    delete clonedFolders[pointer];
+    return updateFolders(clonedFolders);
+  };
 
   const createPlayGround = (data: Record<string, string>) => {
     const updatedData = createDirectory({ data, folders });
@@ -60,7 +78,7 @@ function Home() {
   return (
     <>
       {modalContainer && createPortal(
-        <Modal {...{ createPlayGround, createFolder, createFile }} />, modalContainer
+        <Modal {...{ createPlayGround, createFolder, createFile, info, deleteItem }} />, modalContainer
       )}
       <div className="container">
         <div className="col-1">
@@ -85,13 +103,14 @@ function Home() {
           </div>
 
           <div className='folders-listing'>
-            {
-              Object.entries(folders).map(([folderName, files]) => (
-                <Folder key={folderName} folderName={folderName} items={files} />
-              ))
-            }
+            <Suspense fallback={<div>Loading...</div>}>
+              {
+                Object.entries(folders).map(([folderName, files]) => (
+                  <Folder key={folderName} folderName={folderName} items={files} />
+                ))
+              }
+            </Suspense>
           </div>
-
         </div>
       </div>
     </>

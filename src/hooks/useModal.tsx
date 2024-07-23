@@ -3,7 +3,7 @@ import { ChangeEvent, useEffect, useRef, useState } from 'react';
 
 interface UseModalProps{
   closeModal: () => void;
-  initialValue: Record<string, string>;
+  initialValue?: Record<string, string>;
 }
 
 const useModal = ({ closeModal, initialValue }: UseModalProps) => {
@@ -24,7 +24,8 @@ const useModal = ({ closeModal, initialValue }: UseModalProps) => {
   }, []);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement> ) => {
-    formValue[e.target.name] = e.target.value;
+    const { name, value } = e.target;
+    setFormValue(prevData => ({ ...prevData, [name]: value }));
   };
 
 
@@ -32,6 +33,7 @@ const useModal = ({ closeModal, initialValue }: UseModalProps) => {
     modalRef,
     handleChange,
     data: formValue,
+    setData:setFormValue,
     reset: () => setFormValue({...initialValue}),
   }
 };

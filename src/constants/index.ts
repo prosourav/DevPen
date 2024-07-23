@@ -40,22 +40,22 @@ export const lang: LangType = {
 export const initialData = {
   Basics: {
     'Hello JS': {
-      uuid: 'basics-Hello JS',
+      uuid: 'Basics-Hello JS',
       language: 'js',
       code: lang['js'].code,
     },
     'Hello C++': {
-      uuid: 'basics-Hello C++',
+      uuid: 'Basics-Hello C++',
       language: 'c++',
       code: lang['c++'].code,
     },
     'Hello Python': {
-      uuid: 'basics-Hello Python',
+      uuid: 'Basics-Hello Python',
       language: 'python',
       code: lang['python'].code,
     },
     'Hello Java': {
-      uuid: 'basics-Hello Java',
+      uuid: 'Basics-Hello Java',
       language: 'java',
       code: lang['java'].code,
     },

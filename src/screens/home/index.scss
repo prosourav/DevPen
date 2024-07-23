@@ -214,3 +214,12 @@
     }
   }
 }
+
+.delete-button{
+  background-color: rgb(201, 33, 33) !important;
+}
+.delete-button:hover{
+  background-color: rgb(254, 0, 0) !important;
+  transition: 0.6s;
+}
+

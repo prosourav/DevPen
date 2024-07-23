@@ -6,7 +6,6 @@ import 'devicon/devicon.min.css';
 
 function App() {
 
-
   return (
     <PlayGroundProvider>
       <DirectoryInfoProvider>

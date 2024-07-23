@@ -6,7 +6,7 @@ import { DirectoryContext } from "../../../../data/directory-info-provider";
 
 interface FolderPropType {
   folderName: string;
-  items: FileType
+  items: FileType,
 }
 
 const Folder = ({ folderName, items }: FolderPropType) => {
@@ -21,6 +21,8 @@ const Folder = ({ folderName, items }: FolderPropType) => {
 
 
   const handleOpen = () => { modalFeatures.openModal('create-file'); updatePointer(folderName) };
+  const handleDelete = () => { modalFeatures.openModal('delete'); updatePointer(folderName) };
+  const handleEdit = () => { modalFeatures.openModal('edit'); updatePointer(folderName) };
 
   return (
 
@@ -35,11 +37,11 @@ const Folder = ({ folderName, items }: FolderPropType) => {
         </div>
 
         <div className="folder-nav">
-          <span className="material-icons icon">
+          <span className="material-icons icon" onClick={handleEdit}>
             edit
           </span>
 
-          <span className="material-icons icon">
+          <span className="material-icons icon" onClick={handleDelete}>
             delete
           </span>
 
@@ -54,7 +56,8 @@ const Folder = ({ folderName, items }: FolderPropType) => {
       </div>
       <div className="folder-container">
         {
-          playGround.map(item => <File key={item.uuid} name={item.name} lang={item.language} />)
+          playGround.map(item => <File key={item.uuid} name={item.name} id={item.uuid}
+            handleDelete={handleDelete} lang={item.language} handleEdit={handleEdit} />)
         }
       </div>
     </>
