@@ -1,41 +1,49 @@
-import React, { useState } from 'react';
 import { languages } from '../../../../constants';
 import useModal from '../../../../hooks/useModal';
 
 interface CreatePlayGroundProps {
-  isModalOpen: boolean;
-  closeModal: () => void;
+  isModalOpen: true; 
+  closeModal: () => void; 
+  createPlayGround: (data: Record<string, string>) => void;
 }
 
-const CreatePlayGroundModal: React.FC<CreatePlayGroundProps> = ({ isModalOpen, closeModal }) => {
-  const [selected, setSelected] = useState<string>('');
-  const { modalRef } = useModal({closeModal});
+const initialValue = {
+  folder:"",
+  file:"",
+  language:"js"
+}
 
+const CreatePlayGroundModal: React.FC<CreatePlayGroundProps> = ({ isModalOpen, closeModal, createPlayGround }) => {
+  const { modalRef, handleChange, data, reset } = useModal({ initialValue, closeModal });
 
-  const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelected(e.target.value);
-  };
 
   if (!isModalOpen) return null;
 
+  const handleSubmit = (e: React.FormEvent) => { e.preventDefault(); createPlayGround(data); reset(); closeModal()  };
+
   return (
     <div className='modal' ref={modalRef}>
-      <form>
+      <button className="close-button" onClick={closeModal}>
+        <span className="material-icons">close</span>
+      </button>
+
+  
+      <form onSubmit={handleSubmit}>
         <h1>Create New Playground</h1>
 
         <div>
           <label htmlFor="folder">Enter Folder Name</label>
-          <input name="folder" type="text" required />
+          <input name="folder" type="text" onChange={handleChange} required/>
         </div>
 
         <div>
           <label htmlFor="file">Enter File Name</label>
-          <input name="file" type="text" required />
+          <input name="file" type="text" onChange={handleChange} required />
         </div>
 
         <div>
           <label htmlFor="language">Select Language</label>
-          <select name="language" value={selected} onChange={handleChange} required>
+          <select name="language" defaultValue={"js"} onChange={handleChange} required>
             {languages.map((option) => (
               <option key={option} value={option}>
                 {option}

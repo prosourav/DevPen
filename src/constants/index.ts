@@ -1,12 +1,12 @@
-type LanguageCode = 'c++' | 'js' | 'java' | 'python';
+export type LanguageCode = typeof languages[number];
 
-type CodeSnippet = {
+export type CodeSnippet = {
   readonly code: string;
 };
 
 type LangType = Readonly<Record<LanguageCode, CodeSnippet>>;
 
-export const languages: ReadonlyArray<LanguageCode> = ['c++', 'js', 'java', 'python'];
+export const languages = ['c++', 'js', 'java', 'python'] as const;
 
 export const lang: LangType = {
   'c++': {
@@ -40,22 +40,22 @@ export const lang: LangType = {
 export const initialData = {
   Basics: {
     'Hello JS': {
-      uuid: 'basic-testone',
+      uuid: 'basics-Hello JS',
       language: 'js',
       code: lang['js'].code,
     },
     'Hello C++': {
-      uuid: 'basic-testwo',
+      uuid: 'basics-Hello C++',
       language: 'c++',
       code: lang['c++'].code,
     },
     'Hello Python': {
-      uuid: 'basic-testwo',
+      uuid: 'basics-Hello Python',
       language: 'python',
       code: lang['python'].code,
     },
     'Hello Java': {
-      uuid: 'basic-testwo',
+      uuid: 'basics-Hello Java',
       language: 'java',
       code: lang['java'].code,
     },

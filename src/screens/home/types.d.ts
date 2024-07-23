@@ -1,11 +1,11 @@
 interface FileType {
-  uuid: string;
-  language: string;
-  code: string;
+  [key: string]: {
+    uuid: string;
+    language: string;
+    code: string;
+  }
 }
 
 interface FolderType {
-  [key: string]: {
     [key: string]: FileType;
-  };
 }

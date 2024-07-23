@@ -1,3 +1,4 @@
+import DirectoryInfoProvider from "./data/directory-info-provider";
 import ModalProvider from "./data/modal-provider";
 import PlayGroundProvider from "./data/playground-provider";
 import AppRoute from "./router";
@@ -8,9 +9,11 @@ function App() {
 
   return (
     <PlayGroundProvider>
-      <ModalProvider>
-        <AppRoute />
-      </ModalProvider>
+      <DirectoryInfoProvider>
+        <ModalProvider>
+          <AppRoute />
+        </ModalProvider>
+      </DirectoryInfoProvider>
     </PlayGroundProvider>
   )
 }

@@ -1,6 +1,7 @@
 import { useContext } from "react";
 import File from "../file";
 import { ModalContext } from "../../../../data/modal-provider";
+import { DirectoryContext } from "../../../../data/directory-info-provider";
 
 
 interface FolderPropType {
@@ -10,6 +11,8 @@ interface FolderPropType {
 
 const Folder = ({ folderName, items }: FolderPropType) => {
   const modalFeatures = useContext(ModalContext);
+  const { updatePointer } = useContext(DirectoryContext);
+
   const playGround: Record<string, string>[] = [];
   Object.entries(items).forEach(([key, value]) => {
     const dataItem = { ...value as object, name: key };
@@ -17,7 +20,7 @@ const Folder = ({ folderName, items }: FolderPropType) => {
   });
 
 
-  const handleOpen = () => modalFeatures.openModal('create-file');
+  const handleOpen = () => { modalFeatures.openModal('create-file'); updatePointer(folderName) };
 
   return (
 

@@ -1,11 +1,13 @@
-import { useEffect, useRef } from 'react';
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import { ChangeEvent, useEffect, useRef, useState } from 'react';
 
 interface UseModalProps{
   closeModal: () => void;
+  initialValue: Record<string, string>;
 }
 
-const useModal = ({closeModal}: UseModalProps) => {
-
+const useModal = ({ closeModal, initialValue }: UseModalProps) => {
+  const [formValue, setFormValue] = useState({ ...initialValue });
   const modalRef = useRef<HTMLDivElement | null>(null);
 
   const handleClickOutside = (e: MouseEvent) => {
@@ -21,9 +23,16 @@ const useModal = ({closeModal}: UseModalProps) => {
     };
   }, []);
 
+  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement> ) => {
+    formValue[e.target.name] = e.target.value;
+  };
+
 
   return {
-    modalRef
+    modalRef,
+    handleChange,
+    data: formValue,
+    reset: () => setFormValue({...initialValue}),
   }
 };
 

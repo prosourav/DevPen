@@ -1,8 +1,8 @@
 /* App.scss */
 .container {
   display: grid;
-  grid-template-columns: 6fr 12fr; // Two columns with a 1:2 ratio
-  height: 100vh; // Full viewport height
+  grid-template-columns: 6fr 12fr;
+  height: 100vh;
 
   .title {
     font-size: 24px;
@@ -37,6 +37,11 @@
       align-items: center;
       justify-content: space-between;
       border-bottom: 1px solid #b6b1b1;
+    }
+
+    .folders-listing {
+      overflow-y: scroll;
+      height: 86vh;
     }
 
     .playground-title {
@@ -139,6 +144,16 @@
 }
 
 .modal {
+  position: relative;
+  .close-button {
+    position: absolute;
+    top: 16px;
+    right: -48px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 24px;
+  }
   form {
     background-color: #fff;
     padding: 2rem;
@@ -166,7 +181,7 @@
 
       input,
       select {
-       width: 100%;
+        width: 100%;
         padding: 0.5rem;
         border: 1px solid #ddd;
         border-radius: 4px;

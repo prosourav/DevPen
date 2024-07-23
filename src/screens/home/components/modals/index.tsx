@@ -4,20 +4,29 @@ import CreatePlayGroundModal from './CreatePlayGround';
 import CreateFileModal from './CreateFile';
 import CreateFolderModal from './CreateFolder';
 
-const Modal = () => {
+interface ModalProps {
+  createPlayGround: (data: Record<string, string>) => void,
+  createFolder: (data: Record<string, string>) => void,
+  createFile: (data: Record<string, string>) => void,
+}
+
+const Modal = ({ createPlayGround, createFolder, createFile }: ModalProps) => {
 
   const modalFeatures = useContext(ModalContext);
 
   return (
     <>
       {
-        modalFeatures.activateModal === 'create' && <CreatePlayGroundModal isModalOpen={true} closeModal={modalFeatures.closeModal} />
+        modalFeatures.activateModal === 'create' && <CreatePlayGroundModal isModalOpen={true}
+          closeModal={modalFeatures.closeModal} createPlayGround={createPlayGround} />
       }
       {
-        modalFeatures.activateModal === 'create-file' && <CreateFileModal isModalOpen={true} closeModal={modalFeatures.closeModal} />
+        modalFeatures.activateModal === 'create-file' && <CreateFileModal isModalOpen={true}
+          closeModal={modalFeatures.closeModal} createFile={createFile} />
       }
       {
-        modalFeatures.activateModal === 'create-folder' && <CreateFolderModal isModalOpen={true} closeModal={modalFeatures.closeModal} />
+        modalFeatures.activateModal === 'create-folder' && <CreateFolderModal isModalOpen={true}
+          closeModal={modalFeatures.closeModal} createFolder={createFolder} />
       }
     </>
   );

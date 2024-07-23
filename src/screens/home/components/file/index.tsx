@@ -15,7 +15,7 @@ const File = ({ name, lang }: FileProp) => {
         {lang == 'js' && <i className="devicon-javascript-plain colored lan-icon" />}
         {lang == 'c++' && <i className="devicon-cplusplus-plain colored lan-icon" />}
         <div>
-          <p className="file-title op-icon">{name}</p>
+          <p className="file-title op-icon">{name.length > 12 ? name.substring(0, 12) + '...' : name}</p>
           <span className="language">Language: {lang}</span>
         </div>
       </div>
