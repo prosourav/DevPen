@@ -96,7 +96,7 @@ function Home() {
       )}
       <div className="container">
         <div className="col-1">
-          <img src={PlayGround} alt="Playgroundx" height={250} width={250} />
+          <img src={PlayGround} alt="Playgroundx" height={250} width={250} loading="lazy"/>
           <h1 className='title'>DEVPEN</h1>
           <span>Code. Compile. Debug</span>
           <button className='btn bg-white' onClick={handleOpen}>
