@@ -33,7 +33,7 @@ function Home() {
   const [modalContainer, setModalContainer] = useState<HTMLElement | null>(null);
   const { folders, updateFolders } = useContext<PlaygroundContextType>(PlaygroundContext);
   const modalFeatures = useContext(ModalContext);
-  const { pointer, dirInfo } = useContext(DirectoryContext);
+  const { pointer } = useContext(DirectoryContext);
 
   useEffect(() => {
     setModalContainer(document.getElementById('modals'));
