@@ -1,4 +1,4 @@
-import React, { createContext, useState, ReactNode, FC } from "react";
+import { createContext, useState, ReactNode, FC } from "react";
 
 interface DirectoryContextType {
   pointer: string;
