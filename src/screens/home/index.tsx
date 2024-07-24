@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import './index.scss';
 import PlayGround from '../../assets/code.png';
 import { useContext, useEffect, useState, lazy, Suspense } from 'react';
@@ -7,10 +8,11 @@ import Modal from './components/modals';
 import { ModalContext } from '../../data/modal-provider';
 import { DirectoryContext } from '../../data/directory-info-provider';
 import { createDirectory } from '../../utils/createDirectory';
+import { updateBasicsUuid } from '../../utils/transformUuid';
 
 const Folder = lazy(() => import('./components/folder'));
 
-interface FileType {
+export interface FileType {
   [key: string]: {
     uuid: string;
     language: string;
@@ -18,7 +20,7 @@ interface FileType {
   }
 }
 
-interface FolderType {
+export interface FolderType {
   [key: string]: FileType;
 }
 
@@ -30,19 +32,14 @@ interface PlaygroundContextType {
 function Home() {
   const [modalContainer, setModalContainer] = useState<HTMLElement | null>(null);
   const { folders, updateFolders } = useContext<PlaygroundContextType>(PlaygroundContext);
-  const [info, setInfo] = useState('');
   const modalFeatures = useContext(ModalContext);
-  const { pointer } = useContext(DirectoryContext);
+  const { pointer, dirInfo } = useContext(DirectoryContext);
 
   useEffect(() => {
     setModalContainer(document.getElementById('modals'));
   }, []);
 
-  useEffect(() => {
-    if (modalFeatures.activateModal === 'delete' || modalFeatures.activateModal === 'edit') {
-      setInfo(pointer.includes('-') ? pointer.split('-')[1] : pointer);
-    }
-  }, [modalFeatures.activateModal, pointer]);
+
 
   const handleOpen = () => modalFeatures.openModal('create');
   const handleFolder = () => modalFeatures.openModal('create-folder');
@@ -59,6 +56,23 @@ function Home() {
     const clonedFolders = { ...folders };
     delete clonedFolders[pointer];
     return updateFolders(clonedFolders);
+  };
+
+
+  const editItem = (newTitle: string) => {
+
+    if (pointer.includes('-')) {
+      const [folderKey, file] = pointer.split('-');
+      const clonedFolders = { ...folders };
+      let newObj = clonedFolders[folderKey][file];
+
+      delete clonedFolders[folderKey][file];
+      newObj = { ...newObj, ['uuid']: `${folderKey}-${newTitle}` };
+      clonedFolders[folderKey][newTitle] = newObj;
+      return updateFolders(clonedFolders);
+    }
+    const updatedData = updateBasicsUuid(newTitle, folders[pointer])
+    return updateFolders(updatedData);
   };
 
   const createPlayGround = (data: Record<string, string>) => {
@@ -78,7 +92,7 @@ function Home() {
   return (
     <>
       {modalContainer && createPortal(
-        <Modal {...{ createPlayGround, createFolder, createFile, info, deleteItem }} />, modalContainer
+        <Modal {...{ createPlayGround, createFolder, createFile, deleteItem, editItem }} />, modalContainer
       )}
       <div className="container">
         <div className="col-1">

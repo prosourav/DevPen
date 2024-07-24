@@ -1,27 +1,37 @@
-import React, { createContext, useState, ReactNode } from "react";
+import React, { createContext, useState, ReactNode, FC } from "react";
 
 interface DirectoryContextType {
   pointer: string;
+  dirInfo: DirInfoType | undefined;
   updatePointer: (pointer: string) => void;
+  updateDirInfo: (info: DirInfoType) => void;
 }
 
-export const DirectoryContext = createContext<DirectoryContextType>(
-  {
-    pointer: '',
-    updatePointer: () => { },
-  }
-);
+export const DirectoryContext = createContext<DirectoryContextType>({
+  pointer: '',
+  dirInfo: undefined,
+  updatePointer: () => { },
+  updateDirInfo: () => { },
+});
 
 interface DirectoryProviderProps {
   children: ReactNode;
 }
 
-const DirectoryInfoProvider: React.FC<DirectoryProviderProps> = ({ children }) => {
+interface DirInfoType {
+  language: string;
+  title: string;
+}
+
+const DirectoryInfoProvider: FC<DirectoryProviderProps> = ({ children }) => {
   const [pointer, setPointer] = useState<string>('');
+  const [dirInfo, setDirInfo] = useState<DirInfoType | undefined>(undefined);
 
   const directoryFeatures = {
     pointer,
-    updatePointer: setPointer
+    dirInfo,
+    updatePointer: setPointer,
+    updateDirInfo: setDirInfo,
   };
 
   return (

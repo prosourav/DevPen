@@ -1,14 +1,11 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { createContext, useEffect, useMemo, useState } from "react";
 import storage from "../utils/storage";
 import { initialData } from "../constants";
 
 interface FileType {
-  [key: string]: {
-    uuid: string;
-    language: string;
-    code: string;
-  }
+  uuid: string;
+  language: string;
+  code: string;
 }
 
 interface FolderType {
@@ -16,32 +13,34 @@ interface FolderType {
 }
 
 interface PlaygroundContextType {
-  folders: FolderType;
-  updateFolders: (folders: FolderType) => void;
+  folders: Record<string, FolderType>;
+  updateFolders: (folders: Record<string, FolderType>) => void;
 }
 
 interface PlaygroundProps {
   children: React.ReactNode;
 }
 
-export const PlaygroundContext = createContext<PlaygroundContextType>({
+const defaultContext: PlaygroundContextType = {
   folders: {},
   updateFolders: () => { },
-});
+};
+
+export const PlaygroundContext = createContext<PlaygroundContextType>({...defaultContext});
 
 const PlayGroundProvider: React.FC<PlaygroundProps> = ({ children }) => {
-  const [folders, setFolders] = useState<FolderType>(() => {
+  const [folders, setFolders] = useState<Record<string, FolderType>>(() => {
     try {
-      return storage.retrieve<FolderType>('playground') || { ...initialData };
+      return storage.retrieve<Record<string, FolderType>>('playground') || initialData;
     } catch (error) {
       console.error("Failed to retrieve folders from storage:", error);
-      return { ...initialData };
+      return initialData;
     }
   });
 
   useEffect(() => {
     try {
-      storage.save<FolderType>('playground', folders);
+      storage.save('playground', folders);
     } catch (error) {
       console.error("Failed to save folders to storage:", error);
     }

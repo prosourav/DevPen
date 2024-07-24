@@ -1,22 +1,30 @@
-import { useContext } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { ModalContext } from '../../../../data/modal-provider';
 import CreatePlayGroundModal from './CreatePlayGround';
 import CreateFileModal from './CreateFile';
 import CreateFolderModal from './CreateFolder';
 import DeleteConfirm from './DeleteConfirmation';
 import EditModal from './Edit';
-// import { DirectoryContext } from '../../../../data/directory-info-provider';
+import { DirectoryContext } from '../../../../data/directory-info-provider';
 
 interface ModalProps {
   createPlayGround: (data: Record<string, string>) => void,
   createFolder: (data: Record<string, string>) => void,
   createFile: (data: Record<string, string>) => void,
   deleteItem: () => void
-  info: string,
+  editItem:(data: string) => void
 }
 
-const Modal = ({ createPlayGround, createFolder, createFile, deleteItem, info }: ModalProps) => {
+const Modal = ({ createPlayGround, createFolder, createFile, deleteItem, editItem }: ModalProps) => {
   const modalFeatures = useContext(ModalContext);
+  const [info, setInfo] = useState('');
+  const { pointer } = useContext(DirectoryContext);
+
+  useEffect(() => {
+    if (modalFeatures.activateModal === 'delete' || modalFeatures.activateModal === 'edit') {
+      setInfo(pointer.includes('-') ? pointer.split('-')[1] : pointer);
+    }
+  }, [modalFeatures.activateModal, pointer]);
 
   return (
     <>
@@ -36,7 +44,7 @@ const Modal = ({ createPlayGround, createFolder, createFile, deleteItem, info }:
         <EditModal
           isModalOpen={true}
           closeModal={modalFeatures.closeModal}
-          // deleteOperation={deleteItem}
+          updateFolder={editItem}
           info={info}
         />
       )}
