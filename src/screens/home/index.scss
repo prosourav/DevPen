@@ -70,6 +70,12 @@
       flex-wrap: wrap;
     }
 
+    .folder-icon:hover {
+      transform: scale(1.5);
+      transition: 0.5s;
+      color: rgb(97, 100, 101);
+    }
+
     .file-title {
       font-size: 20px;
       margin: 12px 0px;
@@ -80,6 +86,12 @@
     .op-icon {
       font-size: 18px;
       margin-right: 3px;
+    }
+
+    .op-icon:hover {
+      transform: scale(1.5);
+      transition: 0.5s;
+      color: rgb(97, 100, 101);
     }
 
     .icon {
@@ -145,10 +157,16 @@
 
 .modal {
   position: relative;
+  .modal-row {
+    width: 340px;
+    span {
+      color: red;
+    }
+  }
   .close-button {
     position: absolute;
     top: 16px;
-    right: -48px;
+    right: 8px;
     background: none;
     border: none;
     cursor: pointer;
@@ -160,7 +178,7 @@
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     width: 100%;
-    max-width: 400px;
+    max-width: 340px;
 
     h1 {
       font-size: 1.5rem;
@@ -215,11 +233,10 @@
   }
 }
 
-.delete-button{
+.delete-button {
   background-color: rgb(201, 33, 33) !important;
 }
-.delete-button:hover{
+.delete-button:hover {
   background-color: rgb(254, 0, 0) !important;
   transition: 0.6s;
 }
-

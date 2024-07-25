@@ -11,7 +11,7 @@ interface EditModalProps {
 
 
 const EditModal: React.FC<EditModalProps> = ({ isModalOpen, closeModal, updateFolder, info }) => {
-  const { modalRef, handleChange, data, reset, setData } = useModal({ initialValue: { file: info }, closeModal });
+  const { modalRef, handleChange, data, reset, setData, err, updateError } = useModal({ initialValue: { file: info }, closeModal, initialErr:'' });
 
   useEffect(() => {
     if (isModalOpen) {
@@ -23,9 +23,17 @@ const EditModal: React.FC<EditModalProps> = ({ isModalOpen, closeModal, updateFo
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    updateFolder(data.file);
-    setData({ file: '' });
-    closeModal();
+    if (data.file.trim() === '') {
+      return updateError('Invalid file name');
+    }
+    if (data.file.length > 16 || data.file.length < 1) {
+      return updateError('File must be at least 1 character to 12');
+    }
+    if (!err) {
+      updateFolder(data.file);
+      setData({ file: '' });
+      closeModal();
+    }
   };
 
   if (!isModalOpen) return null;
@@ -38,7 +46,7 @@ const EditModal: React.FC<EditModalProps> = ({ isModalOpen, closeModal, updateFo
       <form onSubmit={handleSubmit}>
         <h3>Update Title <strong style={{ color: 'rgb(136, 136, 186' }}>'{info}'</strong></h3>
 
-        <div>
+        <div className='modal-row'>
           <label htmlFor="file">Enter New Title</label>
           <input
             name="file"
@@ -47,6 +55,7 @@ const EditModal: React.FC<EditModalProps> = ({ isModalOpen, closeModal, updateFo
             onChange={handleChange}
             required
           />
+          {err && <span>{err as string}</span>}
         </div>
 
         <button type="submit">Update</button>

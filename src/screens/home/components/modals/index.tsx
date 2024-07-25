@@ -22,7 +22,7 @@ const Modal = ({ createPlayGround, createFolder, createFile, deleteItem, editIte
 
   useEffect(() => {
     if (modalFeatures.activateModal === 'delete' || modalFeatures.activateModal === 'edit') {
-      setInfo(pointer.includes('-') ? pointer.split('-')[1] : pointer);
+      setInfo(pointer.includes('_') ? pointer.split('_')[1] : pointer);
     }
   }, [modalFeatures.activateModal, pointer]);
 

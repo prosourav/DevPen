@@ -45,8 +45,8 @@ function Home() {
   const handleFolder = () => modalFeatures.openModal('create-folder');
 
   const deleteItem = () => {
-    if (pointer.includes('-')) {
-      const [folderKey, file] = [pointer.split('-')[0], pointer.split('-')[1]];
+    if (pointer.includes('_')) {
+      const [folderKey, file] = pointer.split('_')
       const clonedFolders = { ...folders };
       const selectedFolder = clonedFolders[folderKey];
 
@@ -60,14 +60,13 @@ function Home() {
 
 
   const editItem = (newTitle: string) => {
-
-    if (pointer.includes('-')) {
-      const [folderKey, file] = pointer.split('-');
+    if (pointer.includes('_')) {
+      const [folderKey, file] = pointer.split('_');
       const clonedFolders = { ...folders };
       let newObj = clonedFolders[folderKey][file];
 
       delete clonedFolders[folderKey][file];
-      newObj = { ...newObj, ['uuid']: `${folderKey}-${newTitle}` };
+      newObj = { ...newObj, ['uuid']: `${folderKey}_${newTitle}` };
       clonedFolders[folderKey][newTitle] = newObj;
       return updateFolders(clonedFolders);
     }

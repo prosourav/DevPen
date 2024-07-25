@@ -37,11 +37,11 @@ const Folder = ({ folderName, items }: FolderPropType) => {
         </div>
 
         <div className="folder-nav">
-          <span className="material-icons icon" onClick={handleEdit}>
+          <span className="material-icons icon folder-icon" onClick={handleEdit}>
             edit
           </span>
 
-          <span className="material-icons icon" onClick={handleDelete}>
+          <span className="material-icons icon folder-icon" onClick={handleDelete}>
             delete
           </span>
 

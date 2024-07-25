@@ -12,7 +12,7 @@ export const createDirectory = ({ data, folders, pointer = '' }: ParmeterType) =
 
   const payloadValue = {
     [file]: {
-      uuid: `${folder ?? pointer}-${file}`,
+      uuid: `${folder ?? pointer}_${file}`,
       language: language,
       code: lang[languageKey].code,
     },

@@ -6,7 +6,7 @@ export function updateBasicsUuid(newPrefix: string, basics: FileType): FolderTyp
   for (const [key, value] of Object.entries(basics)) {
     updatedBasics[key] = {
       ...value,
-      uuid: `${newPrefix}-${key}`
+      uuid: `${newPrefix}_${key}`
     };
   }
 
