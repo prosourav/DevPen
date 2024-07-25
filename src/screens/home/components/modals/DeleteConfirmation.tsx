@@ -23,7 +23,7 @@ const DeleteConfirm: React.FC<DeletePlayGroundProps> = ({ isModalOpen, closeModa
       </button>
       <form>
         <div >
-          <h2>Confirm Deletion</h2>
+          <h2>Delete Confirmation</h2>
           <p>Are you sure you want to delete <strong>{info}</strong>?</p>
           <p>This action cannot be undone.</p>
           <button className="delete-button" onClick={handleSubmit}> Yes Delete</button>

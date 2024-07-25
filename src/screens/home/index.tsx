@@ -45,8 +45,8 @@ function Home() {
   const handleFolder = () => modalFeatures.openModal('create-folder');
 
   const deleteItem = () => {
-    if (pointer.includes('-')) {
-      const [folderKey, file] = [pointer.split('-')[0], pointer.split('-')[1]];
+    if (pointer.includes('_')) {
+      const [folderKey, file] = pointer.split('_')
       const clonedFolders = { ...folders };
       const selectedFolder = clonedFolders[folderKey];
 
@@ -60,19 +60,19 @@ function Home() {
 
 
   const editItem = (newTitle: string) => {
-
-    if (pointer.includes('-')) {
-      const [folderKey, file] = pointer.split('-');
+    if (pointer.includes('_')) {
+      const [folderKey, file] = pointer.split('_');
       const clonedFolders = { ...folders };
       let newObj = clonedFolders[folderKey][file];
 
       delete clonedFolders[folderKey][file];
-      newObj = { ...newObj, ['uuid']: `${folderKey}-${newTitle}` };
+      newObj = { ...newObj, ['uuid']: `${folderKey}_${newTitle}` };
       clonedFolders[folderKey][newTitle] = newObj;
       return updateFolders(clonedFolders);
     }
-    const updatedData = updateBasicsUuid(newTitle, folders[pointer])
-    return updateFolders(updatedData);
+    const updatedData = updateBasicsUuid(newTitle, folders[pointer]);
+    delete folders[pointer];
+    return updateFolders({ ...updatedData, ...folders});
   };
 
   const createPlayGround = (data: Record<string, string>) => {
@@ -96,7 +96,7 @@ function Home() {
       )}
       <div className="container">
         <div className="col-1">
-          <img src={PlayGround} alt="Playgroundx" height={250} width={250} loading="lazy"/>
+          <img src={PlayGround} alt="Playgroundx" height={250} width={250} loading="lazy" />
           <h1 className='title'>DEVPEN</h1>
           <span>Code. Compile. Debug</span>
           <button className='btn bg-white' onClick={handleOpen}>

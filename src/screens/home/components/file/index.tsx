@@ -1,5 +1,8 @@
 import { useContext } from "react";
 import { DirectoryContext } from "../../../../data/directory-info-provider";
+import { iconClasses } from "../../../../constants";
+import { Link } from "react-router-dom";
+import { formatUrl } from "../../../../utils/formatUrl";
 
 interface FileProp {
   id: string;
@@ -12,21 +15,23 @@ interface FileProp {
 const File = ({ name, lang, id, handleDelete, handleEdit }: FileProp) => {
   const { updatePointer } = useContext(DirectoryContext);
 
-  const edit = () => {
+  const edit = (e: React.MouseEvent) => {
+    e.preventDefault();
     handleEdit(); updatePointer(id);
   }
-  const deleteOp = () => { handleDelete(); updatePointer(id) };
+  const deleteOp = (e: React.MouseEvent) => {
+    e.preventDefault();
+    handleDelete(); updatePointer(id)
+  };
 
   return (
-    <div className='file'>
+    <Link to={formatUrl(id)} className='file'>
       <div className="file-info">
 
-        {lang == 'python' && <i className="devicon-python-plain colored lan-icon" />}
-        {lang == 'java' && <i className="devicon-java-plain colored lan-icon" />}
-        {lang == 'js' && <i className="devicon-javascript-plain colored lan-icon" />}
-        {lang == 'c++' && <i className="devicon-cplusplus-plain colored lan-icon" />}
+        <i className={iconClasses[lang] || ''} />
+
         <div>
-          <p className="file-title op-icon">{name.length > 12 ? name.substring(0, 10) + '...' : name}</p>
+          <p className="file-title ">{name.length > 12 ? name.substring(0, 10) + '...' : name}</p>
           <span className="language">Language: {lang}</span>
         </div>
       </div>
@@ -40,7 +45,7 @@ const File = ({ name, lang, id, handleDelete, handleEdit }: FileProp) => {
           delete
         </span>
       </div>
-    </div>
+    </Link>
   );
 };
 
