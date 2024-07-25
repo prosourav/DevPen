@@ -70,8 +70,9 @@ function Home() {
       clonedFolders[folderKey][newTitle] = newObj;
       return updateFolders(clonedFolders);
     }
-    const updatedData = updateBasicsUuid(newTitle, folders[pointer])
-    return updateFolders(updatedData);
+    const updatedData = updateBasicsUuid(newTitle, folders[pointer]);
+    delete folders[pointer];
+    return updateFolders({ ...updatedData, ...folders});
   };
 
   const createPlayGround = (data: Record<string, string>) => {
@@ -95,7 +96,7 @@ function Home() {
       )}
       <div className="container">
         <div className="col-1">
-          <img src={PlayGround} alt="Playgroundx" height={250} width={250} loading="lazy"/>
+          <img src={PlayGround} alt="Playgroundx" height={250} width={250} loading="lazy" />
           <h1 className='title'>DEVPEN</h1>
           <span>Code. Compile. Debug</span>
           <button className='btn bg-white' onClick={handleOpen}>
