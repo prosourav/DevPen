@@ -1,14 +1,14 @@
 import { FolderType, FileType } from "../screens/home";
 
 export function updateBasicsUuid(newPrefix: string, basics: FileType): FolderType {
-  const updatedBasics: FileType = {};
+  const updatedFiles: FileType = {};
 
   for (const [key, value] of Object.entries(basics)) {
-    updatedBasics[key] = {
+    updatedFiles[key] = {
       ...value,
       uuid: `${newPrefix}_${key}`
     };
   }
 
-  return { [newPrefix]: updatedBasics };
+  return { [newPrefix]: updatedFiles };
 }

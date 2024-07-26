@@ -2,7 +2,7 @@ import { useContext } from "react";
 import { DirectoryContext } from "../../../../data/directory-info-provider";
 import { iconClasses } from "../../../../constants";
 import { Link } from "react-router-dom";
-import { formatUrl } from "../../../../utils/formatUrl";
+import { encodeUrl } from "../../../../utils/formatUrl";
 
 interface FileProp {
   id: string;
@@ -14,6 +14,7 @@ interface FileProp {
 
 const File = ({ name, lang, id, handleDelete, handleEdit }: FileProp) => {
   const { updatePointer } = useContext(DirectoryContext);
+  const nextURL = `/playground/${encodeUrl(id) }`
 
   const edit = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -25,7 +26,7 @@ const File = ({ name, lang, id, handleDelete, handleEdit }: FileProp) => {
   };
 
   return (
-    <Link to={formatUrl(id)} className='file'>
+    <Link to={nextURL} className='file'>
       <div className="file-info">
 
         <i className={iconClasses[lang] || ''} />

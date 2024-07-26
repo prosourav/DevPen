@@ -1,11 +1,11 @@
 import React from 'react';
 import { languages } from '../../../../constants';
-import useModal from '../../../../hooks/useModal';
+import useForm from '../../../../hooks/useForm';
 
 interface CreatePlayGroundProps {
   isModalOpen: boolean; // Changed to boolean
   closeModal: () => void;
-  createPlayGround: (data: Record<string, string>) => void;
+  createPlayGround: (data: Record<string, string>, success: (isTrue: boolean) => void) => void;
 }
 
 interface ModalErrors {
@@ -26,7 +26,7 @@ const CreatePlayGroundModal: React.FC<CreatePlayGroundProps> = ({
   closeModal,
   createPlayGround,
 }) => {
-  const { modalRef, handleChange, data, reset, err, updateError } = useModal({
+  const { modalRef, handleChange, data, reset, err, updateError } = useForm({
     initialValue,
     closeModal,
     initialErr,
@@ -59,9 +59,16 @@ const CreatePlayGroundModal: React.FC<CreatePlayGroundProps> = ({
     updateError(errors);
 
     if (!hasError) {
-      createPlayGround(data);
-      reset();
-      closeModal();
+      createPlayGround(data, ((isTrue: boolean) => {
+        if (isTrue) {
+          reset();
+          return closeModal();
+        }
+        errors = { ...errors, folder: 'Folder must be at least 1 to 16 characters' };
+        hasError = true;
+        return updateError(errors);
+      }));
+
     }
   };
 

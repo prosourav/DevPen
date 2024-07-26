@@ -12,7 +12,7 @@ interface FolderType {
   [key: string]: FileType;
 }
 
-interface PlaygroundContextType {
+export interface PlaygroundContextType {
   folders: Record<string, FolderType>;
   updateFolders: (folders: Record<string, FolderType>) => void;
 }
@@ -50,6 +50,7 @@ const PlayGroundProvider: React.FC<PlaygroundProps> = ({ children }) => {
     folders,
     updateFolders: setFolders,
   }), [folders]);
+  
 
   return (
     <PlaygroundContext.Provider value={playgroundProviderFeatures}>

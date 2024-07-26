@@ -1,17 +1,19 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect } from 'react';
-import useModal from '../../../../hooks/useModal';
+import useForm from '../../../../hooks/useForm';
 
 interface EditModalProps {
   isModalOpen: boolean;
   closeModal: () => void;
-  updateFolder: (data: string) => void;
+  updateFolder: (data: string, success: (isTrue: boolean) => void) => void;
   info: string;
+  isFile: boolean;
 }
 
 
-const EditModal: React.FC<EditModalProps> = ({ isModalOpen, closeModal, updateFolder, info }) => {
-  const { modalRef, handleChange, data, reset, setData, err, updateError } = useModal({ initialValue: { file: info }, closeModal, initialErr:'' });
+const EditModal: React.FC<EditModalProps> = ({ isModalOpen, closeModal, updateFolder, info, isFile }) => {
+  const { modalRef, handleChange, data, reset, setData, err, updateError } = useForm({ initialValue: { file: info }, closeModal, initialErr: '' });
+  const directory = !isFile ? 'Folder' : 'File';
 
   useEffect(() => {
     if (isModalOpen) {
@@ -24,15 +26,20 @@ const EditModal: React.FC<EditModalProps> = ({ isModalOpen, closeModal, updateFo
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (data.file.trim() === '') {
-      return updateError('Invalid file name');
+      return updateError(`Invalid ${directory} name`);
     }
     if (data.file.length > 16 || data.file.length < 1) {
-      return updateError('File must be at least 1 character to 12');
+      return updateError(`${directory} must be at least 1 character to 12`);
     }
     if (!err) {
-      updateFolder(data.file);
-      setData({ file: '' });
-      closeModal();
+      updateFolder(data.file, ((isTrue: boolean) => {
+        if (isTrue) {
+          setData({ file: '' });
+          return closeModal();
+        }
+        return updateError(`${directory} already exists`);
+      }));
+
     }
   };
 

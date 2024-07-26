@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import './index.scss';
 import PlayGround from '../../assets/code.png';
-import { useContext, useEffect, useState, lazy, Suspense } from 'react';
+import { useContext, lazy, Suspense } from 'react';
 import { PlaygroundContext } from '../../data/playground-provider';
 import { createPortal } from 'react-dom';
 import Modal from './components/modals';
@@ -9,6 +9,7 @@ import { ModalContext } from '../../data/modal-provider';
 import { DirectoryContext } from '../../data/directory-info-provider';
 import { createDirectory } from '../../utils/createDirectory';
 import { updateBasicsUuid } from '../../utils/transformUuid';
+import useModal from '../../hooks/useModal';
 
 const Folder = lazy(() => import('./components/folder'));
 
@@ -30,15 +31,10 @@ interface PlaygroundContextType {
 }
 
 function Home() {
-  const [modalContainer, setModalContainer] = useState<HTMLElement | null>(null);
+  const { modalContainer } = useModal()
   const { folders, updateFolders } = useContext<PlaygroundContextType>(PlaygroundContext);
   const modalFeatures = useContext(ModalContext);
   const { pointer } = useContext(DirectoryContext);
-
-  useEffect(() => {
-    setModalContainer(document.getElementById('modals'));
-  }, []);
-
 
 
   const handleOpen = () => modalFeatures.openModal('create');
@@ -59,34 +55,56 @@ function Home() {
   };
 
 
-  const editItem = (newTitle: string) => {
+  const editItem = (newTitle: string, success: (isTrue: boolean) => void) => {
     if (pointer.includes('_')) {
       const [folderKey, file] = pointer.split('_');
+      if (folders[folderKey][newTitle]) {
+        return success(false);
+      }
       const clonedFolders = { ...folders };
       let newObj = clonedFolders[folderKey][file];
 
       delete clonedFolders[folderKey][file];
       newObj = { ...newObj, ['uuid']: `${folderKey}_${newTitle}` };
       clonedFolders[folderKey][newTitle] = newObj;
-      return updateFolders(clonedFolders);
+      updateFolders(clonedFolders);
+      return success(true);
+    }
+
+    if (folders[newTitle]) {
+      return success(false)
     }
     const updatedData = updateBasicsUuid(newTitle, folders[pointer]);
     delete folders[pointer];
-    return updateFolders({ ...updatedData, ...folders});
+    updateFolders({ ...updatedData, ...folders });
+    return success(true);
   };
 
-  const createPlayGround = (data: Record<string, string>) => {
+  const createPlayGround = (data: Record<string, string>, success: (isTrue: boolean) => void) => {
+    if (folders[data.folder]) {
+      return success(false)
+    }
     const updatedData = createDirectory({ data, folders });
     updateFolders(updatedData);
+    return success(true);
   };
 
-  const createFolder = (data: Record<string, string>) => {
+  const createFolder = (data: Record<string, string>, success: (isTrue: boolean) => void) => {
+    if (folders[data.file]) {
+      return success(false)
+    }
     updateFolders({ ...folders, [data.file]: {} });
+    return success(true);
   };
 
-  const createFile = (data: Record<string, string>) => {
+  const createFile = (data: Record<string, string>, success: (isTrue: boolean) => void) => {
+    if (folders[pointer][data.file]) {
+      return success(false)
+    }
     const updatedData = createDirectory({ data, folders, pointer });
     updateFolders(updatedData);
+    return success(true);
+
   };
 
   return (

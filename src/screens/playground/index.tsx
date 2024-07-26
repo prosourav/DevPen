@@ -1,9 +1,18 @@
+import Navbar from "./components/Navbar";
+import Editor from "./components/Editor";
+import Result from "./components/Result";
 
 const PlayGround = () => {
+
   return (
-    <div>
-        This is Playground
-    </div>
+    <>
+      <Navbar isFullscreen={false} />
+      <div className="playground-container">
+        <Editor />
+        <Result />
+      </div>
+
+    </>
   );
 };
 
