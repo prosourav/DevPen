@@ -29,7 +29,7 @@ const EditModal: React.FC<EditModalProps> = ({ isModalOpen, closeModal, updateFo
       return updateError(`Invalid ${directory} name`);
     }
     if (data.file.length > 16 || data.file.length < 1) {
-      return updateError(`${directory} must be at least 1 character to 12`);
+      return updateError(`${directory} name must be between 1 and 12 characters`);
     }
     if (!err) {
       updateFolder(data.file, ((isTrue: boolean) => {

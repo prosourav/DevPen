@@ -21,6 +21,7 @@ interface ModalProviderProps {
 const ModalProvider: React.FC<ModalProviderProps> = ({ children }) => {
   const [modalType, setModalType] = useState<ModalType>(null);
 
+
   const closeModal = () => {
     setModalType(null);
   };

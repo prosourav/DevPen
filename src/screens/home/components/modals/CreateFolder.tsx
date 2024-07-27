@@ -20,7 +20,7 @@ const CreateFolderModal: React.FC<CreatePlayGroundProps> = ({ isModalOpen, close
       return updateError('Invalid file name');
     }
     if (data.file.length > 16 || data.file.length < 1) {
-      return updateError('File must be at least 1 character to 12');
+      return updateError('Folder name must be between 1 and 12 characters');
     }
 
     if (!err) {

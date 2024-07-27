@@ -6,23 +6,27 @@ import { encodeUrl } from "../../../../utils/formatUrl";
 
 interface FileProp {
   id: string;
+  uId: string
+  parentFolder: string;
   name: string;
   lang: string;
-  handleEdit: () => void;
+  handleEdit: (folder: boolean) => void;
   handleDelete: () => void;
 }
 
-const File = ({ name, lang, id, handleDelete, handleEdit }: FileProp) => {
+const File = ({ parentFolder, name, lang, uId, id, handleDelete, handleEdit }: FileProp) => {
   const { updatePointer } = useContext(DirectoryContext);
-  const nextURL = `/playground/${encodeUrl(id) }`
+  const nextURL = `/playground/${id}_${encodeUrl(parentFolder)}`
 
   const edit = (e: React.MouseEvent) => {
     e.preventDefault();
-    handleEdit(); updatePointer(id);
+    handleEdit(false);
+    updatePointer(uId);
   }
   const deleteOp = (e: React.MouseEvent) => {
     e.preventDefault();
-    handleDelete(); updatePointer(id)
+    handleDelete();
+    updatePointer(uId)
   };
 
   return (

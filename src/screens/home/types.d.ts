@@ -1,6 +1,7 @@
 interface FileType {
   [key: string]: {
     uuid: string;
+    id: string
     language: string;
     code: string;
   }

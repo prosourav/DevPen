@@ -1,3 +1,5 @@
+import uuid from "short-uuid";
+
 export type LanguageCode = typeof languages[number];
 
 export type CodeSnippet = {
@@ -45,28 +47,32 @@ export const initialData = {
   Basics: {
     'Hello JS': {
       uuid: 'Basics_Hello JS',
+      id: uuid.generate(),
       language: 'js',
       code: lang['js'].code,
     },
     'Hello C++': {
       uuid: 'Basics_Hello C++',
+      id: uuid.generate(),
       language: 'c++',
       code: lang['c++'].code,
     },
     'Hello Python': {
       uuid: 'Basics_Hello Python',
+      id: uuid.generate(),
       language: 'python',
       code: lang['python'].code,
     },
     'Hello Java': {
       uuid: 'Basics_Hello Java',
+      id: uuid.generate(),
       language: 'java',
       code: lang['java'].code,
     },
   }
 };
 
-export const iconClasses: IconClasses  = {
+export const iconClasses: IconClasses = {
   python: 'devicon-python-plain colored lan-icon',
   java: 'devicon-java-plain colored lan-icon',
   js: 'devicon-javascript-plain colored lan-icon',

@@ -4,6 +4,7 @@ import { initialData } from "../constants";
 
 interface FileType {
   uuid: string;
+  id: string;
   language: string;
   code: string;
 }
@@ -26,7 +27,7 @@ const defaultContext: PlaygroundContextType = {
   updateFolders: () => { },
 };
 
-export const PlaygroundContext = createContext<PlaygroundContextType>({...defaultContext});
+export const PlaygroundContext = createContext<PlaygroundContextType>(defaultContext);
 
 const PlayGroundProvider: React.FC<PlaygroundProps> = ({ children }) => {
   const [folders, setFolders] = useState<Record<string, FolderType>>(() => {

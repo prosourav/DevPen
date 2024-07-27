@@ -13,6 +13,9 @@ const Folder = ({ folderName, items }: FolderPropType) => {
   const modalFeatures = useContext(ModalContext);
   const { updatePointer } = useContext(DirectoryContext);
 
+  console.log(folderName);
+
+
   const playGround: Record<string, string>[] = [];
   Object.entries(items).forEach(([key, value]) => {
     const dataItem = { ...value as object, name: key };
@@ -22,7 +25,10 @@ const Folder = ({ folderName, items }: FolderPropType) => {
 
   const handleOpen = () => { modalFeatures.openModal('create-file'); updatePointer(folderName) };
   const handleDelete = () => { modalFeatures.openModal('delete'); updatePointer(folderName) };
-  const handleEdit = () => { modalFeatures.openModal('edit'); updatePointer(folderName) };
+  const handleEdit = (folder: boolean) => {
+    modalFeatures.openModal('edit');
+    folder && updatePointer(folderName);
+  };
 
   return (
 
@@ -37,7 +43,7 @@ const Folder = ({ folderName, items }: FolderPropType) => {
         </div>
 
         <div className="folder-nav">
-          <span className="material-icons icon folder-icon" onClick={handleEdit}>
+          <span className="material-icons icon folder-icon" onClick={() => handleEdit(true)}>
             edit
           </span>
 
@@ -56,8 +62,8 @@ const Folder = ({ folderName, items }: FolderPropType) => {
       </div>
       <div className="folder-container">
         {
-          playGround.map(item => <File key={item.uuid} name={item.name} id={item.uuid}
-            handleDelete={handleDelete} lang={item.language} handleEdit={handleEdit} />)
+          playGround.map(item => <File key={item.uuid} name={item.name} uId={item.uuid} id={item.id}
+            handleDelete={handleDelete} lang={item.language} handleEdit={handleEdit} parentFolder={folderName} />)
         }
       </div>
     </>

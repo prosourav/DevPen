@@ -16,6 +16,7 @@ const Folder = lazy(() => import('./components/folder'));
 export interface FileType {
   [key: string]: {
     uuid: string;
+    id: string
     language: string;
     code: string;
   }
@@ -25,14 +26,9 @@ export interface FolderType {
   [key: string]: FileType;
 }
 
-interface PlaygroundContextType {
-  folders: FolderType;
-  updateFolders: (folders: FolderType) => void;
-}
-
 function Home() {
   const { modalContainer } = useModal()
-  const { folders, updateFolders } = useContext<PlaygroundContextType>(PlaygroundContext);
+  const { folders, updateFolders } = useContext(PlaygroundContext);
   const modalFeatures = useContext(ModalContext);
   const { pointer } = useContext(DirectoryContext);
 
@@ -74,7 +70,7 @@ function Home() {
     if (folders[newTitle]) {
       return success(false)
     }
-    const updatedData = updateBasicsUuid(newTitle, folders[pointer]);
+    const updatedData = updateBasicsUuid(newTitle, (folders as FolderType)[pointer]);
     delete folders[pointer];
     updateFolders({ ...updatedData, ...folders });
     return success(true);
@@ -84,7 +80,7 @@ function Home() {
     if (folders[data.folder]) {
       return success(false)
     }
-    const updatedData = createDirectory({ data, folders });
+    const updatedData = createDirectory({ data, folders: folders as FolderType  });
     updateFolders(updatedData);
     return success(true);
   };
@@ -101,7 +97,7 @@ function Home() {
     if (folders[pointer][data.file]) {
       return success(false)
     }
-    const updatedData = createDirectory({ data, folders, pointer });
+    const updatedData = createDirectory({ data, folders: folders as FolderType, pointer });
     updateFolders(updatedData);
     return success(true);
 
@@ -138,7 +134,7 @@ function Home() {
             <Suspense fallback={<div>Loading...</div>}>
               {
                 Object.entries(folders).map(([folderName, files]) => (
-                  <Folder key={folderName} folderName={folderName} items={files} />
+                  <Folder key={folderName} folderName={folderName} items={files as FileType} />
                 ))
               }
             </Suspense>

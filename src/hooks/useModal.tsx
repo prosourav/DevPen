@@ -1,10 +1,18 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { ModalContext } from "../data/modal-provider";
 
 const useModal = () => {
   const [modalContainer, setModalContainer] = useState<HTMLElement | null>(null);
-  
+  const modalFeatures = useContext(ModalContext);
+
   useEffect(() => {
-    setModalContainer(document.getElementById('modals'));
+    modalFeatures.openModal(null)
+    const modalElement = document.getElementById('modals');
+    setModalContainer(modalElement);
+
+    return () => {
+      setModalContainer(null);
+    };
   }, []);
 
 

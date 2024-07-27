@@ -52,7 +52,7 @@ const CreatePlayGroundModal: React.FC<CreatePlayGroundProps> = ({
       errors = { ...errors, folder: 'Invalid input' };
       hasError = true;
     } else if (data.folder.length > 16 || data.folder.length < 1) {
-      errors = { ...errors, folder: 'Folder must be at least 1 to 16 characters' };
+      errors = { ...errors, folder: 'Folder name must be between 1 and 12 characters' };
       hasError = true;
     }
 
@@ -64,7 +64,7 @@ const CreatePlayGroundModal: React.FC<CreatePlayGroundProps> = ({
           reset();
           return closeModal();
         }
-        errors = { ...errors, folder: 'Folder must be at least 1 to 16 characters' };
+        errors = { ...errors, folder: 'Folder name must be between 1 and 12 characters' };
         hasError = true;
         return updateError(errors);
       }));
