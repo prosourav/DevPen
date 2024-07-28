@@ -9,7 +9,7 @@ interface FileType {
   code: string;
 }
 
-interface FolderType {
+export interface FolderType {
   [key: string]: FileType;
 }
 

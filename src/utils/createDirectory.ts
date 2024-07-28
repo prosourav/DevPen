@@ -1,4 +1,4 @@
-import { lang, LanguageCode } from "../constants";
+import { lang, langT } from "../constants";
 import uuid from "short-uuid";
 
 interface ParmeterType {
@@ -9,14 +9,14 @@ interface ParmeterType {
 
 export const createDirectory = ({ data, folders, pointer = '' }: ParmeterType) => {
   const { language, folder, file } = data;
-  const languageKey = language as LanguageCode;
+  const languageKey = language;
 
   const payloadValue = {
     [file]: {
       uuid: `${folder ?? pointer}_${file}`,
       id: uuid.generate(),
       language: language,
-      code: lang[languageKey].code,
+      code: lang[languageKey as langT].code,
     },
   };
   return pointer ? { ...folders, [pointer]: { ...folders[pointer], ...payloadValue } } : { ...folders, [folder]: payloadValue };

@@ -1,41 +1,43 @@
-import React, { useContext, useMemo } from 'react';
-import { PlaygroundContext, PlaygroundContextType } from '../../../../data/playground-provider';
-import { useParams } from 'react-router-dom';
-import { encodeUrl } from '../../../../utils/formatUrl';
-import { languages } from '../../../../constants';
-import useModal from '../../../../hooks/useModal';
-import { createPortal } from 'react-dom';
-import Modal from '../../../home/components/modals';
-import { DirectoryContext } from '../../../../data/directory-info-provider';
-import { ModalContext } from '../../../../data/modal-provider';
+import React, { useContext, useMemo, ChangeEvent, useRef } from "react";
+import Footer from "./Footer";
+import EditorElement from "./Editor";
+import { useParams } from "react-router-dom";
+import Header from "./Header";
+import { PlaygroundContextType, PlaygroundContext } from "../../../../data/playground-provider";
+import { encodeUrl } from "../../../../utils/formatUrl";
+import { DirectoryContext } from "../../../../data/directory-info-provider";
+import { ModalContext } from "../../../../data/modal-provider";
+import useModal from "../../../../hooks/useModal";
+import { createPortal } from "react-dom";
+import Modal from "../../../home/components/modals";
+import { lang, theme } from "../../../../constants";
+import { ThemeContext, ThemeContextProps } from "../../../../data/playground-theme-provider";
+import { ReactCodeMirrorRef } from '@uiw/react-codemirror';
 
-interface FileT {
+export interface FileT {
   uuid: string;
   code: string;
   language: string;
   id: string;
 }
 
-interface CurrentFolderType {
+export interface CurrentFolderType {
   folderName: string;
   fileName: string;
   file: FileT;
 }
 
-// interface PlayGroundType{
-//   language: string;
-//   theme: string;
-// }
+export type Language = 'python' | 'c++' | 'java' | 'js';
 
-const Editor: React.FC = () => {
+const CodeEditor: React.FC = () => {
   const { id } = useParams<{ id: string }>();
-  const { modalContainer } = useModal();
-  const { folders, updateFolders } = useContext<PlaygroundContextType>(PlaygroundContext);
-  const modalFeatures = useContext(ModalContext);
-  const { updatePointer } = useContext(DirectoryContext);
-  // const [playGroundOptions, setPlaygroundOptions] = useState<PlayGroundType>();
-
   const [fileKey, encodedFolderKey] = (id as string).split("_");
+  const { folders, updateFolders } = useContext<PlaygroundContextType>(PlaygroundContext);
+  const playGroundTheme = useContext<ThemeContextProps | undefined>(ThemeContext);
+  const { updatePointer } = useContext(DirectoryContext);
+  const { modalContainer } = useModal();
+  const modalFeatures = useContext(ModalContext);
+  const codeRef = useRef<ReactCodeMirrorRef | null>(null);
 
   const fileInfo = useMemo(() => {
     return Object.keys(folders).reduce((acc, folderKey): CurrentFolderType => {
@@ -51,6 +53,14 @@ const Editor: React.FC = () => {
       return acc;
     }, {} as CurrentFolderType);
   }, [folders, fileKey, encodedFolderKey]);
+
+  const edit = (e: React.MouseEvent<HTMLSpanElement>) => {
+    e.preventDefault();
+    modalFeatures.openModal('edit');
+    if (fileInfo) {
+      updatePointer(fileInfo.file.uuid);
+    }
+  };
 
   const editItem = (newTitle: string, success: (isTrue: boolean) => void) => {
     if (!fileInfo) return success(false);
@@ -69,61 +79,57 @@ const Editor: React.FC = () => {
     return success(true);
   };
 
-  const edit = (e: React.MouseEvent<HTMLSpanElement>) => {
-    e.preventDefault();
-    modalFeatures.openModal('edit');
-    if (fileInfo) {
-      updatePointer(fileInfo.file.uuid);
+  const handleLanguageChange = (event: ChangeEvent<HTMLSelectElement>) => {
+    const { folderName: folderKey, fileName: fileKey, file } = fileInfo;
+
+    const clonedFolders = { ...folders };
+    const newObj = { ...file, ['language']: event.target.value, ['code']: lang[event.target.value as Language].code };
+    clonedFolders[folderKey][fileKey] = newObj;
+    updateFolders(clonedFolders);
+  };
+
+  const handleThemeChange = (event: ChangeEvent<HTMLSelectElement>) => {
+    if (playGroundTheme?.updateTheme) {
+      playGroundTheme?.updateTheme(event.target.value as theme);
+    }
+  };
+
+  const handleSaveCode = () => {
+    if (codeRef.current?.view) {
+      const code = codeRef.current.view.state.doc.toString();
+      const { folderName: folderKey, fileName: fileKey, file } = fileInfo;
+
+      const clonedFolders = { ...folders };
+      const newObj = { ...file, ['code']: code }
+      clonedFolders[folderKey][fileKey] = newObj;
+      return updateFolders(clonedFolders);
     }
   };
 
   return (
-    <>
+    <div>
       {modalContainer && createPortal(
         <Modal editItem={editItem} />, modalContainer
       )}
-      <div>
-        <div className="header-bar">
-          <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
-            <h2 className="header-title">
-              File: <span style={{ fontWeight: 400 }}>{fileInfo?.fileName}</span>
-            </h2>
-            <span className="material-icons icon folder-icon header-icon" onClick={edit}>
-              edit
-            </span>
-            <button className="header-button">Save</button>
-          </div>
-
-          <div className="header-controls">
-            <select
-              className="header-select"
-              name="language"
-              defaultValue={fileInfo?.file?.language}
-              onChange={() => console.log("Language changed!")}
-              required
-            >
-              {languages.map((option) => (
-                <option key={option} value={option}>
-                  {option}
-                </option>
-              ))}
-            </select>
-            <select
-              className="header-select"
-              name="theme"
-              defaultValue="green"
-              onChange={() => console.log("Theme changed!")}
-              required
-            >
-              <option value="green">green</option>
-              <option value="blue">blue</option>
-            </select>
-          </div>
-        </div>
-        <div style={{ background: 'yellow', height: '73vh' }}></div>
-      </div>
-    </>
+      <Header
+        folders={folders}
+        fileInfo={fileInfo}
+        updateFolders={updateFolders}
+        edit={edit}
+        editorTheme={playGroundTheme?.theme as theme}
+        handleLanguageChange={handleLanguageChange}
+        handleThemeChange={handleThemeChange}
+        handleSaveCode={handleSaveCode}
+      />
+      <EditorElement
+        codeRef={codeRef}
+        language={fileInfo.file.language as Language}
+        code={fileInfo.file.code}
+        editorTheme={playGroundTheme?.theme as theme}
+      />
+      <Footer />
+    </div>
   );
 };
 
-export default Editor;
+export default CodeEditor;

@@ -13,9 +13,7 @@ export interface ReturnTypeGetInfo {
   fileName: string;
   
 }
-export const encodeUrl = (data: string): string => {
-  console.log("data", data);
-  
+export const encodeUrl = (data: string): string => {  
   return data.toLowerCase().replace(/\s+/g, '');
 };
 

@@ -13,9 +13,6 @@ const Folder = ({ folderName, items }: FolderPropType) => {
   const modalFeatures = useContext(ModalContext);
   const { updatePointer } = useContext(DirectoryContext);
 
-  console.log(folderName);
-
-
   const playGround: Record<string, string>[] = [];
   Object.entries(items).forEach(([key, value]) => {
     const dataItem = { ...value as object, name: key };
@@ -31,7 +28,6 @@ const Folder = ({ folderName, items }: FolderPropType) => {
   };
 
   return (
-
     <>
       <div className='new-playground'>
 

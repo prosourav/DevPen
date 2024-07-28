@@ -7,7 +7,7 @@ interface NavChildren {
 }
 
 const Navbar: React.FC<NavChildren> = ({ isFullscreen }) => {
-  console.log(isFullscreen);
+  // console.log(isFullscreen);
 
   return (
     <div className={`navbar-container ${isFullscreen} ? 'fullscreen' : ''`}>
