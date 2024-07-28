@@ -1,32 +1,28 @@
-import fullScreen from "../../../../assets/fullscreen.svg"
-import download from '../../../../assets/download.svg';
-import upload from '../../../../assets/upload.svg';
+import React, { ChangeEvent } from 'react';
+import fullScreen from "../../../../assets/fullscreen.svg";
+import ImportExport from "../ImportExport";
 
-const Footer = () => {
+export interface ExportType {
+  code: string;
+  file: string;
+}
+
+interface FooterProps {
+  handleExport: () => ExportType | undefined;
+  handleImport: (e?: ChangeEvent<HTMLInputElement>) => void;
+}
+
+const Footer: React.FC<FooterProps> = ({ handleExport, handleImport }) => {
   return (
     <div className='header-bar'>
       <span className="items">
         <img src={fullScreen} alt="" height={22} />
         Full Screen
       </span>
-
-      <div className='import-export'>
-        <span>
-          Export File
-        </span>
-        <img src={upload} alt="" />
-      </div>
-
-      <div className='import-export'>
-        <span>
-          Import File
-        </span>
-        <img src={download} alt="" />
-      </div>
-
-      <button className="footer-button" onClick={()=>{}}>Run Code</button>
+      <ImportExport operationId='export' label={'Code'} operation={handleExport} />
+      <ImportExport operationId='import' label={'Code (txt)'} operation={handleImport} />
+      <button className="footer-button" onClick={() => { /* Add your run code logic here */ }}>Run Code</button>
     </div>
-
   );
 };
 

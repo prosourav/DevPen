@@ -1,7 +1,17 @@
-import download from '../../../../assets/download.svg';
-import upload from '../../../../assets/upload.svg';
+import ImportExport from '../ImportExport';
 
 const Result = () => {
+
+  const handleImport = () => {
+    console.log('Import');
+  };
+
+  const handleExport = () => {
+    console.log('Export');
+  }
+
+
+
   return (
     <div className='result'>
 
@@ -9,15 +19,7 @@ const Result = () => {
 
         <div className='nav'>
           <h2>Input:</h2>
-
-          <div className='import-export'>
-            <span>
-              Import Input
-            </span>
-            <img src={download} alt="" />
-          </div>
-
-
+          <ImportExport operationId='import' label={'Input'} operation={handleImport} />
         </div>
 
         <div className='input-output'>
@@ -28,15 +30,7 @@ const Result = () => {
       <div className='container'>
         <div className='nav'>
           <h2>Output:</h2>
-          <div className='import-export'>
-            <span>
-
-              Export Input
-            </span>
-            <img src={upload} alt="" />
-          </div>
-
-
+          <ImportExport operationId='export' label={'Input'} operation={handleExport} />
         </div>
         <div className='input-output'></div>
       </div>
