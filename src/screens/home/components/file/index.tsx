@@ -2,30 +2,35 @@ import { useContext } from "react";
 import { DirectoryContext } from "../../../../data/directory-info-provider";
 import { iconClasses } from "../../../../constants";
 import { Link } from "react-router-dom";
-import { formatUrl } from "../../../../utils/formatUrl";
+import { encodeUrl } from "../../../../utils/formatUrl";
 
 interface FileProp {
   id: string;
+  uId: string
+  parentFolder: string;
   name: string;
   lang: string;
-  handleEdit: () => void;
+  handleEdit: (folder: boolean) => void;
   handleDelete: () => void;
 }
 
-const File = ({ name, lang, id, handleDelete, handleEdit }: FileProp) => {
+const File = ({ parentFolder, name, lang, uId, id, handleDelete, handleEdit }: FileProp) => {
   const { updatePointer } = useContext(DirectoryContext);
+  const nextURL = `/playground/${id}_${encodeUrl(parentFolder)}`
 
   const edit = (e: React.MouseEvent) => {
     e.preventDefault();
-    handleEdit(); updatePointer(id);
+    handleEdit(false);
+    updatePointer(uId);
   }
   const deleteOp = (e: React.MouseEvent) => {
     e.preventDefault();
-    handleDelete(); updatePointer(id)
+    handleDelete();
+    updatePointer(uId)
   };
 
   return (
-    <Link to={formatUrl(id)} className='file'>
+    <Link to={nextURL} className='file'>
       <div className="file-info">
 
         <i className={iconClasses[lang] || ''} />

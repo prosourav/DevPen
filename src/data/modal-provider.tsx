@@ -2,7 +2,7 @@ import React, { createContext, useState, ReactNode } from "react";
 
 type ModalType = string | null;
 
-interface ModalContextType {
+export interface ModalContextType {
   openModal: (type: ModalType) => void;
   closeModal: () => void;
   activateModal: ModalType;
@@ -20,6 +20,7 @@ interface ModalProviderProps {
 
 const ModalProvider: React.FC<ModalProviderProps> = ({ children }) => {
   const [modalType, setModalType] = useState<ModalType>(null);
+
 
   const closeModal = () => {
     setModalType(null);

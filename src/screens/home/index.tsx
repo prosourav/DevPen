@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import './index.scss';
 import PlayGround from '../../assets/code.png';
-import { useContext, useEffect, useState, lazy, Suspense } from 'react';
+import { useContext, lazy, Suspense } from 'react';
 import { PlaygroundContext } from '../../data/playground-provider';
 import { createPortal } from 'react-dom';
 import Modal from './components/modals';
@@ -9,12 +9,14 @@ import { ModalContext } from '../../data/modal-provider';
 import { DirectoryContext } from '../../data/directory-info-provider';
 import { createDirectory } from '../../utils/createDirectory';
 import { updateBasicsUuid } from '../../utils/transformUuid';
+import useModal from '../../hooks/useModal';
 
 const Folder = lazy(() => import('./components/folder'));
 
 export interface FileType {
   [key: string]: {
     uuid: string;
+    id: string
     language: string;
     code: string;
   }
@@ -24,21 +26,11 @@ export interface FolderType {
   [key: string]: FileType;
 }
 
-interface PlaygroundContextType {
-  folders: FolderType;
-  updateFolders: (folders: FolderType) => void;
-}
-
 function Home() {
-  const [modalContainer, setModalContainer] = useState<HTMLElement | null>(null);
-  const { folders, updateFolders } = useContext<PlaygroundContextType>(PlaygroundContext);
+  const { modalContainer } = useModal()
+  const { folders, updateFolders } = useContext(PlaygroundContext);
   const modalFeatures = useContext(ModalContext);
   const { pointer } = useContext(DirectoryContext);
-
-  useEffect(() => {
-    setModalContainer(document.getElementById('modals'));
-  }, []);
-
 
 
   const handleOpen = () => modalFeatures.openModal('create');
@@ -59,34 +51,56 @@ function Home() {
   };
 
 
-  const editItem = (newTitle: string) => {
+  const editItem = (newTitle: string, success: (isTrue: boolean) => void) => {
     if (pointer.includes('_')) {
       const [folderKey, file] = pointer.split('_');
+      if (folders[folderKey][newTitle]) {
+        return success(false);
+      }
       const clonedFolders = { ...folders };
       let newObj = clonedFolders[folderKey][file];
 
       delete clonedFolders[folderKey][file];
       newObj = { ...newObj, ['uuid']: `${folderKey}_${newTitle}` };
       clonedFolders[folderKey][newTitle] = newObj;
-      return updateFolders(clonedFolders);
+      updateFolders(clonedFolders);
+      return success(true);
     }
-    const updatedData = updateBasicsUuid(newTitle, folders[pointer]);
+
+    if (folders[newTitle]) {
+      return success(false)
+    }
+    const updatedData = updateBasicsUuid(newTitle, (folders as FolderType)[pointer]);
     delete folders[pointer];
-    return updateFolders({ ...updatedData, ...folders});
+    updateFolders({ ...updatedData, ...folders });
+    return success(true);
   };
 
-  const createPlayGround = (data: Record<string, string>) => {
-    const updatedData = createDirectory({ data, folders });
+  const createPlayGround = (data: Record<string, string>, success: (isTrue: boolean) => void) => {
+    if (folders[data.folder]) {
+      return success(false)
+    }
+    const updatedData = createDirectory({ data, folders: folders as FolderType  });
     updateFolders(updatedData);
+    return success(true);
   };
 
-  const createFolder = (data: Record<string, string>) => {
+  const createFolder = (data: Record<string, string>, success: (isTrue: boolean) => void) => {
+    if (folders[data.file]) {
+      return success(false)
+    }
     updateFolders({ ...folders, [data.file]: {} });
+    return success(true);
   };
 
-  const createFile = (data: Record<string, string>) => {
-    const updatedData = createDirectory({ data, folders, pointer });
+  const createFile = (data: Record<string, string>, success: (isTrue: boolean) => void) => {
+    if (folders[pointer][data.file]) {
+      return success(false)
+    }
+    const updatedData = createDirectory({ data, folders: folders as FolderType, pointer });
     updateFolders(updatedData);
+    return success(true);
+
   };
 
   return (
@@ -120,7 +134,7 @@ function Home() {
             <Suspense fallback={<div>Loading...</div>}>
               {
                 Object.entries(folders).map(([folderName, files]) => (
-                  <Folder key={folderName} folderName={folderName} items={files} />
+                  <Folder key={folderName} folderName={folderName} items={files as FileType} />
                 ))
               }
             </Suspense>

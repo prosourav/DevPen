@@ -4,15 +4,16 @@ import { initialData } from "../constants";
 
 interface FileType {
   uuid: string;
+  id: string;
   language: string;
   code: string;
 }
 
-interface FolderType {
+export interface FolderType {
   [key: string]: FileType;
 }
 
-interface PlaygroundContextType {
+export interface PlaygroundContextType {
   folders: Record<string, FolderType>;
   updateFolders: (folders: Record<string, FolderType>) => void;
 }
@@ -26,7 +27,7 @@ const defaultContext: PlaygroundContextType = {
   updateFolders: () => { },
 };
 
-export const PlaygroundContext = createContext<PlaygroundContextType>({...defaultContext});
+export const PlaygroundContext = createContext<PlaygroundContextType>(defaultContext);
 
 const PlayGroundProvider: React.FC<PlaygroundProps> = ({ children }) => {
   const [folders, setFolders] = useState<Record<string, FolderType>>(() => {
@@ -50,6 +51,7 @@ const PlayGroundProvider: React.FC<PlaygroundProps> = ({ children }) => {
     folders,
     updateFolders: setFolders,
   }), [folders]);
+  
 
   return (
     <PlaygroundContext.Provider value={playgroundProviderFeatures}>

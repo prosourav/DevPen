@@ -1,4 +1,4 @@
-import useModal from "../../../../hooks/useModal";
+import useForm from "../../../../hooks/useForm";
 
 interface DeletePlayGroundProps {
   isModalOpen: boolean;
@@ -9,7 +9,7 @@ interface DeletePlayGroundProps {
 
 
 const DeleteConfirm: React.FC<DeletePlayGroundProps> = ({ isModalOpen, closeModal, deleteOperation, info }) => {
-  const { modalRef } = useModal({ closeModal });
+  const { modalRef } = useForm({ closeModal });
 
   const handleSubmit = (e: React.FormEvent) => { e.preventDefault(); deleteOperation(); closeModal() };
 
@@ -29,7 +29,7 @@ const DeleteConfirm: React.FC<DeletePlayGroundProps> = ({ isModalOpen, closeModa
           <button className="delete-button" onClick={handleSubmit}> Yes Delete</button>
 
         </div>
-   
+
       </form>
     </div>
   );

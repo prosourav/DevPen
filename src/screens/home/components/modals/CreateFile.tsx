@@ -1,10 +1,10 @@
 import { languages } from '../../../../constants';
-import useModal from '../../../../hooks/useModal';
+import useForm from '../../../../hooks/useForm';
 
 interface CreatePlayGroundProps {
   isModalOpen: true;
   closeModal: () => void;
-  createFile: (data: Record<string, string>) => void;
+  createFile: (data: Record<string, string>, success: (isTrue: boolean) => void) => void;
 }
 
 const initialValue = {
@@ -13,7 +13,7 @@ const initialValue = {
 }
 
 const CreateFileModal: React.FC<CreatePlayGroundProps> = ({ isModalOpen, closeModal, createFile }) => {
-  const { modalRef, handleChange, data, reset, err, updateError } = useModal({ initialValue, closeModal, initialErr:'' });
+  const { modalRef, handleChange, data, reset, err, updateError } = useForm({ initialValue, closeModal, initialErr: '' });
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -21,13 +21,20 @@ const CreateFileModal: React.FC<CreatePlayGroundProps> = ({ isModalOpen, closeMo
       return updateError('Invalid file name');
     }
     if (data.file.length > 16 || data.file.length < 1) {
-      return updateError('File must be at least 1 character to 12');
+      return updateError('File name must be between 1 and 12 characters');
     }
 
     if (!err) {
-      createFile(data); reset(); closeModal()
+      createFile(data, (isTrue: boolean) => {
+        if (isTrue) {
+          reset();
+          return closeModal();
+        }
+        return updateError('File name already exists');
+      });
     }
   };
+
 
 
   if (!isModalOpen) return null;

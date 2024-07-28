@@ -8,11 +8,11 @@ import EditModal from './Edit';
 import { DirectoryContext } from '../../../../data/directory-info-provider';
 
 interface ModalProps {
-  createPlayGround: (data: Record<string, string>) => void,
-  createFolder: (data: Record<string, string>) => void,
-  createFile: (data: Record<string, string>) => void,
-  deleteItem: () => void
-  editItem:(data: string) => void
+  createPlayGround?: (data: Record<string, string>, success: (isTrue: boolean) => void) => void,
+  createFolder?: (data: Record<string, string>, success: (isTrue: boolean) => void) => void,
+  createFile?: (data: Record<string, string>, success: (isTrue: boolean) => void) => void,
+  deleteItem?: () => void
+  editItem: (data: string, success: (isTrue: boolean) => void) => void
 }
 
 const Modal = ({ createPlayGround, createFolder, createFile, deleteItem, editItem }: ModalProps) => {
@@ -29,16 +29,22 @@ const Modal = ({ createPlayGround, createFolder, createFile, deleteItem, editIte
   return (
     <>
       {
-        modalFeatures.activateModal === 'create' && <CreatePlayGroundModal isModalOpen={true}
-          closeModal={modalFeatures.closeModal} createPlayGround={createPlayGround} />
+        (modalFeatures.activateModal === 'create' && createPlayGround) &&
+        <CreatePlayGroundModal isModalOpen={true}
+          closeModal={modalFeatures.closeModal}
+          createPlayGround={createPlayGround} />
       }
       {
-        modalFeatures.activateModal === 'create-file' && <CreateFileModal isModalOpen={true}
-          closeModal={modalFeatures.closeModal} createFile={createFile} />
+        (modalFeatures.activateModal === 'create-file' && createFile) &&
+        <CreateFileModal isModalOpen={true}
+          closeModal={modalFeatures.closeModal}
+          createFile={createFile} />
       }
       {
-        modalFeatures.activateModal === 'create-folder' && <CreateFolderModal isModalOpen={true}
-          closeModal={modalFeatures.closeModal} createFolder={createFolder} />
+        (modalFeatures.activateModal === 'create-folder' && createFolder) &&
+        <CreateFolderModal isModalOpen={true}
+          closeModal={modalFeatures.closeModal}
+          createFolder={createFolder} />
       }
       {modalFeatures.activateModal === 'edit' && (
         <EditModal
@@ -46,17 +52,18 @@ const Modal = ({ createPlayGround, createFolder, createFile, deleteItem, editIte
           closeModal={modalFeatures.closeModal}
           updateFolder={editItem}
           info={info}
+          isFile={pointer.split('_').length==2}
         />
       )}
 
-      {modalFeatures.activateModal === 'delete' && (
+      {(modalFeatures.activateModal === 'delete' && deleteItem) &&
         <DeleteConfirm
           isModalOpen={true}
           closeModal={modalFeatures.closeModal}
           deleteOperation={deleteItem}
           info={info}
         />
-      )}
+      }
     </>
   );
 };

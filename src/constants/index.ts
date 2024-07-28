@@ -1,16 +1,27 @@
+import { cpp } from "@codemirror/lang-cpp";
+import { java } from "@codemirror/lang-java";
+import { javascript } from "@codemirror/lang-javascript";
+import { python } from "@codemirror/lang-python";
+import { dracula } from "@uiw/codemirror-theme-dracula";
+import { githubLight } from "@uiw/codemirror-theme-github";
+import { vscodeDark } from "@uiw/codemirror-theme-vscode";
+import uuid from "short-uuid";
+
 export type LanguageCode = typeof languages[number];
 
 export type CodeSnippet = {
   readonly code: string;
 };
 
-type LangType = Readonly<Record<LanguageCode, CodeSnippet>>;
+export type LangType = Record<langT, CodeSnippet>;
 
 type IconClasses = {
   [key: string]: string;
 };
 
-export const languages = ['c++', 'js', 'java', 'python'] as const;
+export const languages = ['c++', 'js', 'java', 'python'];
+export type langT = 'python' | 'c++' | 'java' | 'js';
+
 
 export const lang: LangType = {
   'c++': {
@@ -38,35 +49,39 @@ export const lang: LangType = {
   'python': {
     code: `print('Hello World!')`
   },
-} as const;
+};
 
 
 export const initialData = {
   Basics: {
     'Hello JS': {
       uuid: 'Basics_Hello JS',
+      id: uuid.generate(),
       language: 'js',
       code: lang['js'].code,
     },
     'Hello C++': {
       uuid: 'Basics_Hello C++',
+      id: uuid.generate(),
       language: 'c++',
       code: lang['c++'].code,
     },
     'Hello Python': {
       uuid: 'Basics_Hello Python',
+      id: uuid.generate(),
       language: 'python',
       code: lang['python'].code,
     },
     'Hello Java': {
       uuid: 'Basics_Hello Java',
+      id: uuid.generate(),
       language: 'java',
       code: lang['java'].code,
     },
   }
 };
 
-export const iconClasses: IconClasses  = {
+export const iconClasses: IconClasses = {
   python: 'devicon-python-plain colored lan-icon',
   java: 'devicon-java-plain colored lan-icon',
   js: 'devicon-javascript-plain colored lan-icon',
@@ -75,3 +90,43 @@ export const iconClasses: IconClasses  = {
 
 
 
+
+export const getLanguageExtension = (language: LanguageCode) => {
+  switch (language) {
+    case 'python':
+      return python();
+    case 'c++':
+      return cpp();
+    case 'java':
+      return java();
+    case 'js':
+      return javascript();
+    default:
+      return javascript();
+  }
+};
+
+export type theme = 'light' | 'dark' | 'github-light' | 'dracula' |  'vs-dark';
+
+export const getTheme = (theme: theme) => {
+  switch (theme) {
+    case 'vs-dark':
+      return vscodeDark;
+    case 'github-light':
+      return githubLight;
+    case 'dark':
+      return 'dark';
+    case 'dracula':
+      return dracula;
+    default:
+      return 'light';
+  }
+};
+
+export const themes = [
+  { name: 'Light', value: 'light' },
+  { name: 'Dark', value: 'dark' },
+  { name: 'Dracula', value: 'dracula' },
+  { name: 'VS-Code Dark', value: 'vs-dark' },
+  { name: 'GitHub Light', value: 'github-light' }
+]

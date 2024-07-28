@@ -1,12 +1,12 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { ChangeEvent, useEffect, useRef, useState } from 'react';
 
-interface UseModalProps {
+interface useFormProps {
   closeModal: () => void;
   initialValue?: Record<string, string>;
 
 }
-interface UseModalProps {
+interface useFormProps {
   closeModal: () => void;
   initialValue?: Record<string, string>;
   initialErr?: ModalErrors | string;
@@ -20,7 +20,7 @@ interface ModalErrors {
 
 
 
-const useModal = ({ closeModal, initialValue, initialErr }: UseModalProps) => {
+const useForm = ({ closeModal, initialValue, initialErr }: useFormProps) => {
   const [formValue, setFormValue] = useState({ ...initialValue });
   const [err, setErr] = useState(initialErr);
 
@@ -66,4 +66,4 @@ const useModal = ({ closeModal, initialValue, initialErr }: UseModalProps) => {
   }
 };
 
-export default useModal;
+export default useForm;
