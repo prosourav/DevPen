@@ -2,7 +2,7 @@ import React, { useContext, useMemo, ChangeEvent, useRef } from "react";
 import Footer from "./Footer";
 import EditorElement from "./Editor";
 import { useParams } from "react-router-dom";
-import Header from "./Header";
+import Header, { loadingType } from "./Header";
 import { PlaygroundContextType, PlaygroundContext } from "../../../../data/playground-provider";
 import { encodeUrl } from "../../../../utils/formatUrl";
 import { DirectoryContext } from "../../../../data/directory-info-provider";
@@ -94,7 +94,7 @@ const CodeEditor: React.FC = () => {
     }
   };
 
-  const handleSaveCode = () => {
+  const handleSaveCode = (cb: (data: loadingType) => void) => {
     if (codeRef.current?.view) {
       const code = codeRef.current.view.state.doc.toString();
       const { folderName: folderKey, fileName: fileKey, file } = fileInfo;
@@ -102,7 +102,8 @@ const CodeEditor: React.FC = () => {
       const clonedFolders = { ...folders };
       const newObj = { ...file, ['code']: code }
       clonedFolders[folderKey][fileKey] = newObj;
-      return updateFolders(clonedFolders);
+      updateFolders(clonedFolders);
+      setTimeout(() => (cb('in-progress')), 700)
     }
   };
 

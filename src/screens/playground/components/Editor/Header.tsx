@@ -1,7 +1,8 @@
 // Header.tsx
-import React, { ChangeEvent } from 'react';
+import React, { ChangeEvent, Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { languages, theme, themes } from '../../../../constants';
 import { CurrentFolderType, FileT } from '.';
+import Done from "../../../../assets/done.svg";
 
 interface HeaderProps {
   folders: Record<string, Record<string, FileT>>;
@@ -10,13 +11,26 @@ interface HeaderProps {
   edit: (e: React.MouseEvent<HTMLSpanElement>) => void;
   handleLanguageChange: (event: ChangeEvent<HTMLSelectElement>) => void;
   handleThemeChange: (data: ChangeEvent<HTMLSelectElement>) => void;
-  handleSaveCode: () => void
+  handleSaveCode: (data: Dispatch<SetStateAction<loadingType>>) => void
   editorTheme: theme
 }
+export type loadingType = 'true' | 'false' | 'in-progress'
 
 const Header: React.FC<HeaderProps> = ({ edit, fileInfo, handleLanguageChange,
   handleThemeChange, editorTheme, handleSaveCode
 }) => {
+  const [loading, setLoading] = useState<loadingType>('false');
+
+  useEffect(() => {
+    if (loading === 'in-progress') {
+      setTimeout(() => setLoading('false'), 3000);
+    }
+  }, [loading]);
+
+  const saveCode = () => {
+    setLoading('true');
+    handleSaveCode(setLoading);
+  };
 
   return (
     <div>
@@ -28,7 +42,11 @@ const Header: React.FC<HeaderProps> = ({ edit, fileInfo, handleLanguageChange,
           <span className="material-icons icon folder-icon header-icon" onClick={edit}>
             edit
           </span>
-          <button className="header-button" onClick={handleSaveCode}>Save Code</button>
+          <button className="header-button" onClick={saveCode}>
+            {loading === 'true' && <div className="spinner"></div>}
+            Save Code
+          </button>
+          {loading === 'in-progress' && < img src={Done} alt="done" />}
         </div>
 
         <div className="header-controls">
