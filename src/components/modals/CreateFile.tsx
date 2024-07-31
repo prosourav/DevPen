@@ -1,18 +1,13 @@
-import useForm from '../../../../hooks/useForm';
-
-// interface CreatePlayGroundProps {
-//   isModalOpen: true;
-//   closeModal: () => void;
-//   createFolder: (data: Record<string, string>, success: (isTrue: boolean) => void) => void;
-// }
+import { languages } from '../../constants';
+import useForm from '../../hooks/useForm';
 
 const initialValue = {
-  file: ''
+  file: '',
+  language: 'js',
 }
 
-const CreateFolderModal: React.FC<CreatePlayGroundProps> = ({ isModalOpen, closeModal, createFolder }) => {
+const CreateFileModal: React.FC<CreatePlayGroundProps> = ({ isModalOpen, closeModal, createFile }) => {
   const { modalRef, handleChange, data, reset, err, updateError } = useForm({ initialValue, closeModal, initialErr: '' });
-
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -20,19 +15,20 @@ const CreateFolderModal: React.FC<CreatePlayGroundProps> = ({ isModalOpen, close
       return updateError('Invalid file name');
     }
     if (data.file.length > 16 || data.file.length < 1) {
-      return updateError('Folder name must be between 1 and 12 characters');
+      return updateError('File name must be between 1 and 12 characters');
     }
 
     if (!err) {
-      createFolder?.(data, (isTrue: boolean) => {
+      createFile?.(data, (isTrue: boolean) => {
         if (isTrue) {
           reset();
           return closeModal();
         }
-        return updateError('Folder already exists');
+        return updateError('File name already exists');
       });
     }
   };
+
 
 
   if (!isModalOpen) return null;
@@ -43,20 +39,28 @@ const CreateFolderModal: React.FC<CreatePlayGroundProps> = ({ isModalOpen, close
         <span className="material-icons">close</span>
       </button>
       <form onSubmit={handleSubmit}>
-        <h1>Create New Folder</h1>
+        <h1>Create New File</h1>
 
         <div className='modal-row'>
-          <label htmlFor="file">Enter Folder Name</label>
+          <label htmlFor="file">Enter File Name</label>
           <input name="file" type="text" onChange={handleChange} required />
           {err && <span>{err as string}</span>}
-
         </div>
 
-
+        <div>
+          <label htmlFor="language">Select Language</label>
+          <select name="language" defaultValue={"js"} onChange={handleChange} required>
+            {languages.map((option) => (
+              <option key={option} value={option}>
+                {option}
+              </option>
+            ))}
+          </select>
+        </div>
         <button type="submit">Create</button>
       </form>
     </div>
   );
 };
 
-export default CreateFolderModal;
+export default CreateFileModal;

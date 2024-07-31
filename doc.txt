@@ -1,0 +1,2 @@
+1.faced issue when used import-export component and sending dynamic funtion to its props. it was only calling same function evry
+time, As its function getting propogated.

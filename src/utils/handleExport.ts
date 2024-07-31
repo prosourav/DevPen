@@ -1,4 +1,4 @@
-import { ExportType } from "../screens/playground/components/Editor/Footer";
+import { ExportType } from "../screens/playground/types";
 
 
 export const handleExport = (value: string, file: string) => {

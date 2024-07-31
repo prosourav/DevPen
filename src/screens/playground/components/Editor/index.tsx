@@ -1,30 +1,27 @@
 import React, { useContext, useMemo, ChangeEvent, useRef, SetStateAction } from "react";
-import Footer, { ExportType } from "./Footer";
-import EditorElement from "./Editor";
+import Footer from "./Footer";
 import { useParams } from "react-router-dom";
 import Header from "./Header";
-import { PlaygroundContext } from "../../../../data/playground-provider";
+import { PlaygroundContext } from "../../../../provider/playground-provider";
 import { encodeUrl } from "../../../../utils/formatUrl";
-import { DirectoryContext } from "../../../../data/directory-info-provider";
-import { ModalContext } from "../../../../data/modal-provider";
+import { DirectoryContext } from "../../../../provider/directory-info-provider";
+import { ModalContext } from "../../../../provider/modal-provider";
 import useModal from "../../../../hooks/useModal";
 import { createPortal } from "react-dom";
-import Modal from "../../../home/components/modals";
+import Modal from "../../../../components/modals";
 import { lang, langT, languageCode, languageToExtension, theme } from "../../../../constants";
-import { ThemeContext } from "../../../../data/playground-theme-provider";
+import { ThemeContext } from "../../../../provider/playground-theme-provider";
 import { ReactCodeMirrorRef } from '@uiw/react-codemirror';
 import { BodyType, handleSubmit } from "../../../../api";
-import { InputOutputContext } from "../../../../data/input-output-provider";
+import { InputOutputContext } from "../../../../provider/input-output-provider";
 import { encode } from "../../../../utils/encode";
 import { handleExport } from "../../../../utils/handleExport";
 import { readFileContent } from "../../../../utils/readFile";
-import { CurrentFolderType, LanCodeType, loadingType } from "../../types";
-import { PlaygroundContextType, ThemeContextProps } from "../../../../data/types";
+import { CurrentFolderType, ExportType, LanCodeType, Language, loadingType } from "../../types";
+import { PlaygroundContextType, ThemeContextProps } from "../../../../provider/types";
+import EditorElement from "./Editor";
 
 
-
-
-export type Language = 'python' | 'c++' | 'java' | 'js';
 
 const CodeEditor: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -53,6 +50,7 @@ const CodeEditor: React.FC = () => {
     }, {} as CurrentFolderType);
   }, [folders, fileKey, encodedFolderKey]);
 
+  // open edit modal
   const edit = (e: React.MouseEvent<HTMLSpanElement>) => {
     e.preventDefault();
     modalFeatures.openModal('edit');
@@ -61,6 +59,7 @@ const CodeEditor: React.FC = () => {
     }
   };
 
+  // edit operation
   const editItem = (newTitle: string, success: (isTrue: boolean) => void) => {
     if (!fileInfo) return success(false);
 

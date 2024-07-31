@@ -1,6 +1,6 @@
 import React from 'react';
-import { languages } from '../../../../constants';
-import useForm from '../../../../hooks/useForm';
+import { languages } from '../../constants';
+import useForm from '../../hooks/useForm';
 
 
 const initialValue = {

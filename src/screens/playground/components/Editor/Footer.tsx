@@ -1,17 +1,8 @@
-import React, { ChangeEvent, SetStateAction, useState } from 'react';
+import React, { useState } from 'react';
 // import fullScreen from "../../../../public/assets//fullscreen.svg";
 import ImportExport from "../ImportExport";
+import { FooterProps } from '../../types';
 
-export interface ExportType {
-  code: string;
-  file: string;
-}
-
-interface FooterProps {
-  handleExport: () => ExportType | undefined;
-  handleImport: (e?: ChangeEvent<HTMLInputElement>) => void;
-  handleSubmit: (setDisabled: React.Dispatch<SetStateAction<boolean>>) => void;
-}
 
 const Footer: React.FC<FooterProps> = ({ handleExport, handleImport, handleSubmit }) => {
   const [disabled, setDisabled] = useState(false);
@@ -37,14 +28,8 @@ const Footer: React.FC<FooterProps> = ({ handleExport, handleImport, handleSubmi
 
       <div className='footer-imex'>
         <ImportExport operationId='export' label={'Code'} operation={handleExport} />
-
         <ImportExport operationId='import' label={'Code (txt)'} importData={handleCodeImport} />
-
       </div>
-
-
-
-
 
       <button
         className={`footer-button ${disabled ? 'disabled' : ''}`}

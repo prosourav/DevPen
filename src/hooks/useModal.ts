@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { ModalContext } from "../data/modal-provider";
+import { ModalContext } from "../provider/modal-provider";
 
 const useModal = () => {
   const [modalContainer, setModalContainer] = useState<HTMLElement | null>(null);
