@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { InputOutputContext } from '../../../../data/input-output-provider';
+import { InputOutputContext } from '../../../../provider/input-output-provider';
 import ImportExport from '../ImportExport';
 import { handleExport } from '../../../../utils/handleExport';
 import { readFileContent } from '../../../../utils/readFile';
@@ -8,11 +8,6 @@ import { readFileContent } from '../../../../utils/readFile';
 
 const Result = () => {
   const context = useContext(InputOutputContext);
-
-  if (!context) {
-    throw new Error("Result must be used within an InputOutputProvider");
-  }
-
   const { data, updateData } = context;
 
   const exportData = () => {

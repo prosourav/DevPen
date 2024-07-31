@@ -2,36 +2,22 @@
 import './index.scss';
 import PlayGround from '../../../public/assets/code.png';
 import { useContext, lazy, Suspense } from 'react';
-import { PlaygroundContext } from '../../data/playground-provider';
+import { PlaygroundContext } from '../../provider/playground-provider';
 import { createPortal } from 'react-dom';
-import Modal from './components/modals';
-import { ModalContext } from '../../data/modal-provider';
-import { DirectoryContext } from '../../data/directory-info-provider';
+import Modal from '../../components/modals';
+import { ModalContext } from '../../provider/modal-provider';
+import { DirectoryContext } from '../../provider/directory-info-provider';
 import { createDirectory } from '../../utils/createDirectory';
 import { updateBasicsUuid } from '../../utils/transformUuid';
 import useModal from '../../hooks/useModal';
-
 const Folder = lazy(() => import('./components/folder'));
 
-// export interface FileType {
-//   [key: string]: {
-//     uuid: string;
-//     id: string
-//     language: string;
-//     code: string;
-//   }
-// }
-
-// export interface FolderType {
-//   [key: string]: FileType;
-// }
 
 function Home() {
   const { modalContainer } = useModal()
   const { folders, updateFolders } = useContext(PlaygroundContext);
   const modalFeatures = useContext(ModalContext);
   const { pointer } = useContext(DirectoryContext);
-
 
   const handleOpen = () => modalFeatures.openModal('create');
   const handleFolder = () => modalFeatures.openModal('create-folder');
@@ -80,7 +66,7 @@ function Home() {
     if (folders[data.folder]) {
       return success(false)
     }
-    const updatedData = createDirectory({ data, folders: folders as FolderType  });
+    const updatedData = createDirectory({ data, folders: folders as FolderType });
     updateFolders(updatedData);
     return success(true);
   };

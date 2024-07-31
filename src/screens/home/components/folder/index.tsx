@@ -1,13 +1,8 @@
 import { useContext } from "react";
 import File from "../file";
-import { ModalContext } from "../../../../data/modal-provider";
-import { DirectoryContext } from "../../../../data/directory-info-provider";
+import { ModalContext } from "../../../../provider/modal-provider";
+import { DirectoryContext } from "../../../../provider/directory-info-provider";
 
-
-// interface FolderPropType {
-//   folderName: string;
-//   items: FileType,
-// }
 
 const Folder = ({ folderName, items }: FolderPropType) => {
   const modalFeatures = useContext(ModalContext);
@@ -22,6 +17,7 @@ const Folder = ({ folderName, items }: FolderPropType) => {
 
   const handleOpen = () => { modalFeatures.openModal('create-file'); updatePointer(folderName) };
   const handleDelete = () => { modalFeatures.openModal('delete'); updatePointer(folderName) };
+
   const handleEdit = (folder: boolean) => {
     modalFeatures.openModal('edit');
     folder && updatePointer(folderName);

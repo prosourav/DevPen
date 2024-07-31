@@ -1,9 +1,7 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import Navbar from "./components/Navbar";
 import CodeEditor from "./components/Editor";
 import Result from "./components/Result";
-import InputOutputProvider from "../../data/input-output-provider";
-// import { useState } from "react";
+import InputOutputProvider from "../../provider/input-output-provider";
 
 const PlayGround = () => {
   // const [fullScreen, setFullScreen] = useState(false);

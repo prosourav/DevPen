@@ -1,4 +1,6 @@
 
+export type Language = 'python' | 'c++' | 'java' | 'js';
+
 
 interface NavChildren {
   isFullscreen: boolean;
@@ -49,4 +51,15 @@ interface EditorProps {
   onChange?: (value: string) => void;
   editorTheme: theme;
   codeRef: MutableRefObject<ReactCodeMirrorRef | null>;
+}
+
+interface FooterProps {
+  handleExport: () => ExportType | undefined;
+  handleImport: (e?: ChangeEvent<HTMLInputElement>) => void;
+  handleSubmit: (setDisabled: React.Dispatch<SetStateAction<boolean>>) => void;
+}
+
+export interface ExportType {
+  code: string;
+  file: string;
 }

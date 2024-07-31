@@ -1,30 +1,57 @@
-# React + TypeScript + Vite
+## [DEVPEN](https://docs.google.com/document/d/1yVhJXEnkWH70TxCaL_szUhj-4v18Bo4JHap2TjdchDI/edit?usp=sharing)
+#### 
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This project delivers a robust platform for developers to efficiently write, store, and manage code files in Python, JavaScript, Java, and C++. The editor offers a user-friendly interface for creating, editing, and deleting files and folders, with seamless data persistence within the browser. Users can also effortlessly import and export code and input/output files, enhancing workflow flexibility.
 
-Currently, two official plugins are available:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Core Features
 
-## Expanding the ESLint configuration
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+- Supports Python, JavaScript, Java, and C++
+- Intuitive file and folder management
+- Efficient code editing and storage
+- Import/export functionality for code and input/output files
+- Browser-based data persistence
+ 
 
-- Configure the top-level `parserOptions` property like this:
+## Techs and tools
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json', './tsconfig.app.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
+**Tech stack:** React, Typescript, Judge0 API, Codemirror, Context API, Axios, SCSS
+
+## Environment Variables
+
+To run this project, you will need to add the following environment variables to your .env file
+
+
+`VITE_BASE_URL` https://judge0-ce.p.rapidapi.com
+`VITE_API_KEY` YOUR_JUDGE0_API_KEY
+`VITE_BASE_PATH` submissions
+`VITE_BASE_HOST` judge0-ce.p.rapidapi.com
+
+## Run Locally
+
+Clone the project
+
+```bash
+  git clone git@github.com:prosourav/DevPen.git
 ```
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+Go to the project directory
+
+```bash
+  cd DevPen
+```
+
+Install dependencies
+
+```bash
+  npm install
+```
+
+Start the server
+
+```bash
+  npm run dev
+```
+
+

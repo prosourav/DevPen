@@ -1,15 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect } from 'react';
-import useForm from '../../../../hooks/useForm';
-
-// interface EditModalProps {
-//   isModalOpen: boolean;
-//   closeModal: () => void;
-//   updateFolder: (data: string, success: (isTrue: boolean) => void) => void;
-//   info: string;
-//   isFile: boolean;
-// }
-
+import useForm from '../../hooks/useForm';
 
 const EditModal: React.FC<EditModalProps> = ({ isModalOpen, closeModal, updateFolder, info, isFile }) => {
   const { modalRef, handleChange, data, reset, setData, err, updateError } = useForm({ initialValue: { file: info }, closeModal, initialErr: '' });

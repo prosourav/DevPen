@@ -1,19 +1,12 @@
 import { useContext, useEffect, useState } from 'react';
-import { ModalContext } from '../../../../data/modal-provider';
+import { ModalContext } from '../../provider/modal-provider';
 import CreatePlayGroundModal from './CreatePlayGround';
 import CreateFileModal from './CreateFile';
 import CreateFolderModal from './CreateFolder';
 import DeleteConfirm from './DeleteConfirmation';
 import EditModal from './Edit';
-import { DirectoryContext } from '../../../../data/directory-info-provider';
+import { DirectoryContext } from '../../provider/directory-info-provider';
 
-// interface ModalProps {
-//   createPlayGround?: (data: Record<string, string>, success: (isTrue: boolean) => void) => void,
-//   createFolder?: (data: Record<string, string>, success: (isTrue: boolean) => void) => void,
-//   createFile?: (data: Record<string, string>, success: (isTrue: boolean) => void) => void,
-//   deleteItem?: () => void
-//   editItem: (data: string, success: (isTrue: boolean) => void) => void
-// }
 
 const Modal = ({ createPlayGround, createFolder, createFile, deleteItem, editItem }: ModalProps) => {
   const modalFeatures = useContext(ModalContext);
@@ -52,7 +45,7 @@ const Modal = ({ createPlayGround, createFolder, createFile, deleteItem, editIte
           closeModal={modalFeatures.closeModal}
           updateFolder={editItem}
           info={info}
-          isFile={pointer.split('_').length==2}
+          isFile={pointer.split('_').length == 2}
         />
       )}
 

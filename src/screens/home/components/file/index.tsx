@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { DirectoryContext } from "../../../../data/directory-info-provider";
+import { DirectoryContext } from "../../../../provider/directory-info-provider";
 import { iconClasses } from "../../../../constants";
 import { Link } from "react-router-dom";
 import { encodeUrl } from "../../../../utils/formatUrl";
