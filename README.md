@@ -24,8 +24,11 @@ To run this project, you will need to add the following environment variables to
 
 
 `VITE_BASE_URL` https://judge0-ce.p.rapidapi.com
+
 `VITE_API_KEY` YOUR_JUDGE0_API_KEY
+
 `VITE_BASE_PATH` submissions
+
 `VITE_BASE_HOST` judge0-ce.p.rapidapi.com
 
 ## Run Locally
