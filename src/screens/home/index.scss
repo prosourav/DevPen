@@ -132,6 +132,11 @@
       justify-items: space-between;
     }
   }
+
+  .folder {
+    color: rgb(255, 202, 38);
+    font-variation-settings: "'FILL' 1";
+  }
   .btn,
   .add {
     padding: 10px 20px;
@@ -242,3 +247,10 @@
   background-color: rgb(254, 0, 0) !important;
   transition: 0.6s;
 }
+
+  .title1 {
+    color: rgb(136, 136, 186) !important;
+    font-weight: bold;
+    padding-left: 3px;
+  }
+

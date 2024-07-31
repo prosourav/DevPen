@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import './index.scss';
-import PlayGround from '../../assets/code.png';
+import PlayGround from '../../../public/assets/code.png';
 import { useContext, lazy, Suspense } from 'react';
 import { PlaygroundContext } from '../../data/playground-provider';
 import { createPortal } from 'react-dom';
@@ -13,18 +13,18 @@ import useModal from '../../hooks/useModal';
 
 const Folder = lazy(() => import('./components/folder'));
 
-export interface FileType {
-  [key: string]: {
-    uuid: string;
-    id: string
-    language: string;
-    code: string;
-  }
-}
+// export interface FileType {
+//   [key: string]: {
+//     uuid: string;
+//     id: string
+//     language: string;
+//     code: string;
+//   }
+// }
 
-export interface FolderType {
-  [key: string]: FileType;
-}
+// export interface FolderType {
+//   [key: string]: FileType;
+// }
 
 function Home() {
   const { modalContainer } = useModal()

@@ -112,6 +112,11 @@
     justify-content: space-around;
     gap: 6px;
   }
+  .wrapper {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+  }
 }
 
 .header-title {
@@ -201,17 +206,23 @@
     transform: rotate(360deg);
   }
 }
-.output{
+.output {
   padding: 10px;
   font-size: large;
 }
 
-.footer-imex{
+.footer-imex {
   display: flex;
   gap: 40px;
 }
-
-.disabled{
-  cursor:not-allowed;
+.d-none {
+  display: none;
+}
+.disabled {
+  cursor: not-allowed;
   background-color: rgb(165, 170, 254);
+}
+
+.font-normal{
+  font-weight: 400;
 }

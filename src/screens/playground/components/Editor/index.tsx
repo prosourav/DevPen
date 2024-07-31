@@ -2,8 +2,8 @@ import React, { useContext, useMemo, ChangeEvent, useRef, SetStateAction } from 
 import Footer, { ExportType } from "./Footer";
 import EditorElement from "./Editor";
 import { useParams } from "react-router-dom";
-import Header, { loadingType } from "./Header";
-import { PlaygroundContextType, PlaygroundContext } from "../../../../data/playground-provider";
+import Header from "./Header";
+import { PlaygroundContext } from "../../../../data/playground-provider";
 import { encodeUrl } from "../../../../utils/formatUrl";
 import { DirectoryContext } from "../../../../data/directory-info-provider";
 import { ModalContext } from "../../../../data/modal-provider";
@@ -11,31 +11,18 @@ import useModal from "../../../../hooks/useModal";
 import { createPortal } from "react-dom";
 import Modal from "../../../home/components/modals";
 import { lang, langT, languageCode, languageToExtension, theme } from "../../../../constants";
-import { ThemeContext, ThemeContextProps } from "../../../../data/playground-theme-provider";
+import { ThemeContext } from "../../../../data/playground-theme-provider";
 import { ReactCodeMirrorRef } from '@uiw/react-codemirror';
 import { BodyType, handleSubmit } from "../../../../api";
 import { InputOutputContext } from "../../../../data/input-output-provider";
 import { encode } from "../../../../utils/encode";
 import { handleExport } from "../../../../utils/handleExport";
 import { readFileContent } from "../../../../utils/readFile";
+import { CurrentFolderType, LanCodeType, loadingType } from "../../types";
+import { PlaygroundContextType, ThemeContextProps } from "../../../../data/types";
 
 
-export interface FileT {
-  uuid: string;
-  code: string;
-  language: string;
-  id: string;
-}
 
-export interface CurrentFolderType {
-  folderName: string;
-  fileName: string;
-  file: FileT;
-}
-
-interface LanCodeType {
-  [key: string]: number;
-}
 
 export type Language = 'python' | 'c++' | 'java' | 'js';
 

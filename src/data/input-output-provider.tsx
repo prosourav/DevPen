@@ -1,14 +1,6 @@
 import { useState, FC, createContext } from "react";
+import { InputOutputFeatures, InputOutputDataType } from "./types";
 
-export interface InputOutputDataType {
-  input: string;
-  output: string;
-}
-
-export interface InputOutputFeatures {
-  data: InputOutputDataType;
-  updateData: (value: InputOutputDataType) => void;
-}
 
 const init: InputOutputFeatures = {
   data: { input: '', output: '' },

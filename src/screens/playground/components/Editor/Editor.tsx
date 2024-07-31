@@ -1,14 +1,7 @@
-import CodeMirror, { ReactCodeMirrorRef } from '@uiw/react-codemirror';
-import { getLanguageExtension, getTheme, theme } from '../../../../constants';
-import { MutableRefObject } from 'react';
+import CodeMirror from '@uiw/react-codemirror';
+import { getLanguageExtension, getTheme } from '../../../../constants';
+import { EditorProps } from '../../types';
 
-interface EditorProps {
-  language: 'python' | 'c++' | 'java' | 'js';
-  code: string;
-  onChange?: (value: string) => void;
-  editorTheme: theme;
-  codeRef: MutableRefObject<ReactCodeMirrorRef | null>;
-}
 
 const Editor: React.FC<EditorProps> = ({ language, code, editorTheme, codeRef }) => {
   return (

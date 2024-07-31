@@ -56,7 +56,6 @@ export const handleSubmit = async (data: BodyType): Promise<unknown> => {
         output: '',
       }
     }
-    console.error('Error submitting code:', error);
     return { name: 'Something Went Wrong', output: '' }
   }
 };

@@ -1,5 +1,5 @@
 import React, { ChangeEvent, SetStateAction, useState } from 'react';
-// import fullScreen from "../../../../assets/fullscreen.svg";
+// import fullScreen from "../../../../public/assets//fullscreen.svg";
 import ImportExport from "../ImportExport";
 
 export interface ExportType {
@@ -22,11 +22,10 @@ const Footer: React.FC<FooterProps> = ({ handleExport, handleImport, handleSubmi
   };
 
   const handleCodeImport = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log("Hi", e.target.files);
     if (e.target.files && e.target.files.length > 0) {
       handleImport(e);
     }
-  
+
   };
 
   return (
@@ -39,8 +38,8 @@ const Footer: React.FC<FooterProps> = ({ handleExport, handleImport, handleSubmi
       <div className='footer-imex'>
         <ImportExport operationId='export' label={'Code'} operation={handleExport} />
 
-        <ImportExport operationId='import' label={'Code (txt)'} importData={handleCodeImport}/>
-     
+        <ImportExport operationId='import' label={'Code (txt)'} importData={handleCodeImport} />
+
       </div>
 
 

@@ -1,13 +1,5 @@
 import useForm from "../../../../hooks/useForm";
 
-interface DeletePlayGroundProps {
-  isModalOpen: boolean;
-  closeModal: () => void;
-  info: string
-  deleteOperation: () => void;
-}
-
-
 const DeleteConfirm: React.FC<DeletePlayGroundProps> = ({ isModalOpen, closeModal, deleteOperation, info }) => {
   const { modalRef } = useForm({ closeModal });
 

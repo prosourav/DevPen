@@ -6,7 +6,7 @@ import InputOutputProvider from "../../data/input-output-provider";
 // import { useState } from "react";
 
 const PlayGround = () => {
-// const [fullScreen, setFullScreen] = useState(false);
+  // const [fullScreen, setFullScreen] = useState(false);
   // const handleFullScreen = () => setFullScreen(prv => !prv);
 
   return (
@@ -16,7 +16,6 @@ const PlayGround = () => {
         <CodeEditor />
         <Result />
       </div>
-
     </InputOutputProvider>
   );
 };

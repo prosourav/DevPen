@@ -1,15 +1,8 @@
-import React, { FC, useState, createContext } from "react";
+import { FC, useState, createContext } from "react";
 import { theme as Theme } from "../constants"; // Assuming Theme is exported from constants
 import storage from "../utils/storage";
+import { ThemeContextProps, ThemeProps } from "./types";
 
-interface ThemeProps {
-  children: React.ReactElement;
-}
-
-export interface ThemeContextProps {
-  theme: Theme;
-  updateTheme: (theme: Theme) => void;
-}
 
 export const ThemeContext = createContext<ThemeContextProps | undefined>(undefined);
 const initialData: Theme = 'dark';

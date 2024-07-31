@@ -1,14 +1,8 @@
 import React, { useState } from 'react';
-import upload from '../../../../assets/download.svg';
-import download from '../../../../assets/upload.svg';
-import { ExportType } from '../Editor/Footer';
+import upload from '../../../../../public/assets/upload.svg';
+import download from '../../../../../public/assets/download.svg';
+import { OperationProps } from '../../types';
 
-interface OperationProps {
-  operationId: 'import' | 'export';
-  label: string;
-  operation?: (e?: React.ChangeEvent<HTMLInputElement>) => ExportType | void;
-  importData?: (e: React.ChangeEvent<HTMLInputElement>) => void;
-}
 
 const ImportExport: React.FC<OperationProps> = ({ operationId, operation, label, importData }) => {
   const [state, setState] = useState({ content: '', filename: '' });
@@ -32,7 +26,7 @@ const ImportExport: React.FC<OperationProps> = ({ operationId, operation, label,
         <input
           id={`input-${label}`}
           type="file"
-          style={{ display: 'none' }}
+          className='d-none'
           onChange={handleImport}
         />
       </React.Fragment>

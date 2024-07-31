@@ -7,13 +7,13 @@ import DeleteConfirm from './DeleteConfirmation';
 import EditModal from './Edit';
 import { DirectoryContext } from '../../../../data/directory-info-provider';
 
-interface ModalProps {
-  createPlayGround?: (data: Record<string, string>, success: (isTrue: boolean) => void) => void,
-  createFolder?: (data: Record<string, string>, success: (isTrue: boolean) => void) => void,
-  createFile?: (data: Record<string, string>, success: (isTrue: boolean) => void) => void,
-  deleteItem?: () => void
-  editItem: (data: string, success: (isTrue: boolean) => void) => void
-}
+// interface ModalProps {
+//   createPlayGround?: (data: Record<string, string>, success: (isTrue: boolean) => void) => void,
+//   createFolder?: (data: Record<string, string>, success: (isTrue: boolean) => void) => void,
+//   createFile?: (data: Record<string, string>, success: (isTrue: boolean) => void) => void,
+//   deleteItem?: () => void
+//   editItem: (data: string, success: (isTrue: boolean) => void) => void
+// }
 
 const Modal = ({ createPlayGround, createFolder, createFile, deleteItem, editItem }: ModalProps) => {
   const modalFeatures = useContext(ModalContext);

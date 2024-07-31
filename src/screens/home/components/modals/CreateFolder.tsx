@@ -1,10 +1,10 @@
 import useForm from '../../../../hooks/useForm';
 
-interface CreatePlayGroundProps {
-  isModalOpen: true;
-  closeModal: () => void;
-  createFolder: (data: Record<string, string>, success: (isTrue: boolean) => void) => void;
-}
+// interface CreatePlayGroundProps {
+//   isModalOpen: true;
+//   closeModal: () => void;
+//   createFolder: (data: Record<string, string>, success: (isTrue: boolean) => void) => void;
+// }
 
 const initialValue = {
   file: ''
@@ -24,7 +24,7 @@ const CreateFolderModal: React.FC<CreatePlayGroundProps> = ({ isModalOpen, close
     }
 
     if (!err) {
-      createFolder(data, (isTrue: boolean) => {
+      createFolder?.(data, (isTrue: boolean) => {
         if (isTrue) {
           reset();
           return closeModal();

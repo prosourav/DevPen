@@ -4,15 +4,6 @@ import { iconClasses } from "../../../../constants";
 import { Link } from "react-router-dom";
 import { encodeUrl } from "../../../../utils/formatUrl";
 
-interface FileProp {
-  id: string;
-  uId: string
-  parentFolder: string;
-  name: string;
-  lang: string;
-  handleEdit: (folder: boolean) => void;
-  handleDelete: () => void;
-}
 
 const File = ({ parentFolder, name, lang, uId, id, handleDelete, handleEdit }: FileProp) => {
   const { updatePointer } = useContext(DirectoryContext);
