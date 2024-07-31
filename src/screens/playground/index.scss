@@ -51,7 +51,7 @@
     .container {
       display: flex;
       flex-direction: column;
-
+      overflow: scroll;
       .nav {
         background-color: whitesmoke;
         // background-color:  rgb(187 190 255);
@@ -200,4 +200,18 @@
   to {
     transform: rotate(360deg);
   }
+}
+.output{
+  padding: 10px;
+  font-size: large;
+}
+
+.footer-imex{
+  display: flex;
+  gap: 40px;
+}
+
+.disabled{
+  cursor:not-allowed;
+  background-color: rgb(165, 170, 254);
 }

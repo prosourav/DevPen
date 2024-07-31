@@ -88,8 +88,12 @@ export const iconClasses: IconClasses = {
   'c++': 'devicon-cplusplus-plain colored lan-icon',
 };
 
-
-
+export const languageCode = {
+  "c++": 54,
+  java: 62,
+  js: 93,
+  python: 92
+};
 
 export const getLanguageExtension = (language: LanguageCode) => {
   switch (language) {
@@ -130,3 +134,52 @@ export const themes = [
   { name: 'VS-Code Dark', value: 'vs-dark' },
   { name: 'GitHub Light', value: 'github-light' }
 ]
+
+export const languageToExtension = {
+  js: ".js",
+  java: ".java",
+  "c++": ".cpp",
+  python: ".py",
+};
+
+// import axios, { Axios, AxiosResponse } from "axios";
+// // const code = `
+// // public class Main {
+
+// //     public static void main(String[] args) {
+// //         printPrimeNumbers(1, 20);
+// //     }
+
+// //     public static void printPrimeNumbers(int start, int end) {
+// //         for (int i = start; i <= end; i++) {
+// //             if (isPrime(i)) {
+// //                 System.out.print(i + " ");
+// //             }
+// //         }
+// //         System.out.println(); // To move to the next line after printing all prime numbers
+// //     }
+
+// //     public static boolean isPrime(int number) {
+// //         if (number <= 1) {
+// //             return false;
+// //         }
+// //         for (int i = 2; i <= Math.sqrt(number); i++) {
+// //             if (number % i == 0) {
+// //                 return false;
+// //             }
+// //         }
+// //         return true;
+// //     }
+// // }
+
+
+// // dynamic code
+
+// // #include <iostream>
+// // using namespace std;
+// // int main(){
+// //     int a, b;
+// //   cin >> a >> b;
+// //   cout << 10 * a + b * 5 << endl;
+// //   return 0;
+// // }

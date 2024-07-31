@@ -1,4 +1,4 @@
-import React, { useContext, useMemo, ChangeEvent, useRef } from "react";
+import React, { useContext, useMemo, ChangeEvent, useRef, SetStateAction } from "react";
 import Footer, { ExportType } from "./Footer";
 import EditorElement from "./Editor";
 import { useParams } from "react-router-dom";
@@ -10,9 +10,15 @@ import { ModalContext } from "../../../../data/modal-provider";
 import useModal from "../../../../hooks/useModal";
 import { createPortal } from "react-dom";
 import Modal from "../../../home/components/modals";
-import { lang, langT, theme } from "../../../../constants";
+import { lang, langT, languageCode, languageToExtension, theme } from "../../../../constants";
 import { ThemeContext, ThemeContextProps } from "../../../../data/playground-theme-provider";
 import { ReactCodeMirrorRef } from '@uiw/react-codemirror';
+import { BodyType, handleSubmit } from "../../../../api";
+import { InputOutputContext } from "../../../../data/input-output-provider";
+import { encode } from "../../../../utils/encode";
+import { handleExport } from "../../../../utils/handleExport";
+import { readFileContent } from "../../../../utils/readFile";
+
 
 export interface FileT {
   uuid: string;
@@ -27,6 +33,10 @@ export interface CurrentFolderType {
   file: FileT;
 }
 
+interface LanCodeType {
+  [key: string]: number;
+}
+
 export type Language = 'python' | 'c++' | 'java' | 'js';
 
 const CodeEditor: React.FC = () => {
@@ -38,6 +48,8 @@ const CodeEditor: React.FC = () => {
   const { modalContainer } = useModal();
   const modalFeatures = useContext(ModalContext);
   const codeRef = useRef<ReactCodeMirrorRef | null>(null);
+  const { data: ContextData, updateData } = useContext(InputOutputContext);
+
 
   const fileInfo = useMemo(() => {
     return Object.keys(folders).reduce((acc, folderKey): CurrentFolderType => {
@@ -107,58 +119,42 @@ const CodeEditor: React.FC = () => {
     }
   };
 
-  const handleExport = () => {
+  const exportData = () => {
     if (codeRef.current?.view) {
-      const languageToExtension = {
-        js: ".js",
-        java: ".java",
-        "c++": ".cpp",
-        python: ".py",
-      };
-
-      const file = `${fileInfo.fileName}${languageToExtension[fileInfo.file.language as langT] || ""}`;
-      const data: ExportType = {
-        code: codeRef.current.view.state.doc.toString(),
-        file: file,
-      };
-      return data
+      const code = codeRef.current.view.state.doc.toString();
+      const file = `${fileInfo.fileName}${languageToExtension[fileInfo.file.language as langT] || "txt"}`;
+      return handleExport(code, file)
     }
   };
 
-
-
-  const getFile = (e?: React.ChangeEvent<HTMLInputElement>) => {
+  const importData = (e?: React.ChangeEvent<HTMLInputElement>) => {
     if (e && e?.target?.files && e.target.files.length > 0) {
-      placeFileContent(e.target.files[0]);
-    }
-  };
-
-  const placeFileContent = (file: File) => {
-    readFileContent(file)
-      .then((content) => {
+      readFileContent(e.target.files[0]).then((content) => {
         if (codeRef.current?.view) {
           codeRef.current.view.dispatch({
             changes: { from: 0, to: codeRef.current.view.state.doc.length, insert: content }
           });
         }
       })
-      .catch((error) => console.log(error));
+        .catch((error) => console.log(error));
+    }
   };
 
-  function readFileContent(file: File): Promise<string> {
-    const reader = new FileReader();
-    return new Promise((resolve, reject) => {
-      reader.onload = (event: ProgressEvent<FileReader>) => {
-        if (event.target && typeof event.target.result === 'string') {
-          resolve(event.target.result);
-        } else {
-          reject(new Error('Failed to read file content as string'));
-        }
-      };
-      reader.onerror = (error) => reject(error);
-      reader.readAsText(file);
-    });
+  async function runTheCode(cb: React.Dispatch<SetStateAction<boolean>>) {
+    updateData({ ...ContextData, ["output"]: '' });
+
+    if (codeRef.current?.view) {
+      const data: BodyType = {
+        source_code: encode(codeRef.current.view.state.doc.toString()),
+        language_id: (languageCode as LanCodeType)[fileInfo.file?.language],
+        stdin: encode(ContextData.input)
+      }
+      const response = await handleSubmit(data);
+      updateData({ ...ContextData, ["output"]: (response as { output: string }).output });
+      cb(false)
+    }
   }
+
 
   return (
     <div>
@@ -182,7 +178,9 @@ const CodeEditor: React.FC = () => {
         editorTheme={playGroundTheme?.theme as theme}
       />
       <Footer
-       handleExport={handleExport} handleImport={getFile} />
+        handleExport={exportData as () => ExportType} handleImport={importData}
+        handleSubmit={runTheCode}
+      />
     </div>
   );
 };

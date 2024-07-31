@@ -1,5 +1,5 @@
-import React, { ChangeEvent } from 'react';
-import fullScreen from "../../../../assets/fullscreen.svg";
+import React, { ChangeEvent, SetStateAction, useState } from 'react';
+// import fullScreen from "../../../../assets/fullscreen.svg";
 import ImportExport from "../ImportExport";
 
 export interface ExportType {
@@ -10,18 +10,51 @@ export interface ExportType {
 interface FooterProps {
   handleExport: () => ExportType | undefined;
   handleImport: (e?: ChangeEvent<HTMLInputElement>) => void;
+  handleSubmit: (setDisabled: React.Dispatch<SetStateAction<boolean>>) => void;
 }
 
-const Footer: React.FC<FooterProps> = ({ handleExport, handleImport }) => {
+const Footer: React.FC<FooterProps> = ({ handleExport, handleImport, handleSubmit }) => {
+  const [disabled, setDisabled] = useState(false);
+
+  const submit = () => {
+    setDisabled(true);
+    handleSubmit(setDisabled);
+  };
+
+  const handleCodeImport = (e: React.ChangeEvent<HTMLInputElement>) => {
+    console.log("Hi", e.target.files);
+    if (e.target.files && e.target.files.length > 0) {
+      handleImport(e);
+    }
+  
+  };
+
   return (
     <div className='header-bar'>
-      <span className="items">
-        <img src={fullScreen} alt="" height={22} />
+      {/* <span className="items">
+        <img src={fullScreen} alt="Full Screen" height={22} />
         Full Screen
-      </span>
-      <ImportExport operationId='export' label={'Code'} operation={handleExport} />
-      <ImportExport operationId='import' label={'Code (txt)'} operation={handleImport} />
-      <button className="footer-button" onClick={() => { /* Add your run code logic here */ }}>Run Code</button>
+      </span> */}
+
+      <div className='footer-imex'>
+        <ImportExport operationId='export' label={'Code'} operation={handleExport} />
+
+        <ImportExport operationId='import' label={'Code (txt)'} importData={handleCodeImport}/>
+     
+      </div>
+
+
+
+
+
+      <button
+        className={`footer-button ${disabled ? 'disabled' : ''}`}
+        disabled={disabled}
+        onClick={submit}
+      >
+        {disabled && <div className="spinner"></div>}
+        Run Code
+      </button>
     </div>
   );
 };
