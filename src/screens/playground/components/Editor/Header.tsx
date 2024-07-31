@@ -1,20 +1,9 @@
 // Header.tsx
-import React, { ChangeEvent, Dispatch, SetStateAction, useEffect, useState } from 'react';
-import { languages, theme, themes } from '../../../../constants';
-import { CurrentFolderType, FileT } from '.';
-import Done from "../../../../assets/done.svg";
+import React, { useEffect, useState } from 'react';
+import { languages, themes } from '../../../../constants';
+import Done from "../../../../../public/assets/done.svg";
+import { HeaderProps, loadingType } from '../../types';
 
-interface HeaderProps {
-  folders: Record<string, Record<string, FileT>>;
-  fileInfo: CurrentFolderType;
-  updateFolders: (data: Record<string, Record<string, FileT>>) => void;
-  edit: (e: React.MouseEvent<HTMLSpanElement>) => void;
-  handleLanguageChange: (event: ChangeEvent<HTMLSelectElement>) => void;
-  handleThemeChange: (data: ChangeEvent<HTMLSelectElement>) => void;
-  handleSaveCode: (data: Dispatch<SetStateAction<loadingType>>) => void
-  editorTheme: theme
-}
-export type loadingType = 'true' | 'false' | 'in-progress'
 
 const Header: React.FC<HeaderProps> = ({ edit, fileInfo, handleLanguageChange,
   handleThemeChange, editorTheme, handleSaveCode
@@ -35,9 +24,9 @@ const Header: React.FC<HeaderProps> = ({ edit, fileInfo, handleLanguageChange,
   return (
     <div>
       <div className="header-bar">
-        <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
+        <div className='wrapper'>
           <h2 className="header-title">
-            File: <span style={{ fontWeight: 400 }}>{fileInfo?.fileName}</span>
+            File: <span className='font-normal'>{fileInfo?.fileName}</span>
           </h2>
           <span className="material-icons icon folder-icon header-icon" onClick={edit}>
             edit

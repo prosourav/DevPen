@@ -51,7 +51,7 @@
     .container {
       display: flex;
       flex-direction: column;
-
+      overflow: scroll;
       .nav {
         background-color: whitesmoke;
         // background-color:  rgb(187 190 255);
@@ -111,6 +111,11 @@
     align-items: center;
     justify-content: space-around;
     gap: 6px;
+  }
+  .wrapper {
+    display: flex;
+    gap: 12px;
+    align-items: center;
   }
 }
 
@@ -200,4 +205,24 @@
   to {
     transform: rotate(360deg);
   }
+}
+.output {
+  padding: 10px;
+  font-size: large;
+}
+
+.footer-imex {
+  display: flex;
+  gap: 40px;
+}
+.d-none {
+  display: none;
+}
+.disabled {
+  cursor: not-allowed;
+  background-color: rgb(165, 170, 254);
+}
+
+.font-normal{
+  font-weight: 400;
 }

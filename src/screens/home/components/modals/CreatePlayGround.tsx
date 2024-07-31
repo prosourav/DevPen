@@ -2,16 +2,6 @@ import React from 'react';
 import { languages } from '../../../../constants';
 import useForm from '../../../../hooks/useForm';
 
-interface CreatePlayGroundProps {
-  isModalOpen: boolean; // Changed to boolean
-  closeModal: () => void;
-  createPlayGround: (data: Record<string, string>, success: (isTrue: boolean) => void) => void;
-}
-
-interface ModalErrors {
-  file: string;
-  folder: string;
-}
 
 const initialValue = {
   folder: '',
@@ -59,7 +49,7 @@ const CreatePlayGroundModal: React.FC<CreatePlayGroundProps> = ({
     updateError(errors);
 
     if (!hasError) {
-      createPlayGround(data, ((isTrue: boolean) => {
+      createPlayGround?.(data, ((isTrue: boolean) => {
         if (isTrue) {
           reset();
           return closeModal();

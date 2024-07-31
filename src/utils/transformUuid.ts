@@ -1,4 +1,3 @@
-import { FolderType, FileType } from "../screens/home";
 
 export function updateBasicsUuid(newPrefix: string, basics: FileType): FolderType {
   const updatedFiles: FileType = {};

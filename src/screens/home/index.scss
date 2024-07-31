@@ -132,6 +132,11 @@
       justify-items: space-between;
     }
   }
+
+  .folder {
+    color: rgb(255, 202, 38);
+    font-variation-settings: "'FILL' 1";
+  }
   .btn,
   .add {
     padding: 10px 20px;
@@ -218,7 +223,8 @@
     button {
       width: 100%;
       padding: 0.75rem;
-      background-color: #0067;
+      // background-color: #0067;
+      background-color: rgb(113, 119, 233);
       color: #fff;
       border: none;
       border-radius: 4px;
@@ -228,7 +234,7 @@
 
       &:hover {
         // background-color: #0056b3;
-        background-color: rgb(138, 147, 193);
+        background-color: rgb(90, 110, 233);
       }
     }
   }
@@ -241,3 +247,10 @@
   background-color: rgb(254, 0, 0) !important;
   transition: 0.6s;
 }
+
+  .title1 {
+    color: rgb(136, 136, 186) !important;
+    font-weight: bold;
+    padding-left: 3px;
+  }
+

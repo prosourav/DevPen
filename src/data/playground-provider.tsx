@@ -1,6 +1,7 @@
 import { createContext, useEffect, useMemo, useState } from "react";
 import storage from "../utils/storage";
 import { initialData } from "../constants";
+import { PlaygroundContextType, PlaygroundProps } from "./types";
 
 interface FileType {
   uuid: string;
@@ -13,14 +14,6 @@ export interface FolderType {
   [key: string]: FileType;
 }
 
-export interface PlaygroundContextType {
-  folders: Record<string, FolderType>;
-  updateFolders: (folders: Record<string, FolderType>) => void;
-}
-
-interface PlaygroundProps {
-  children: React.ReactNode;
-}
 
 const defaultContext: PlaygroundContextType = {
   folders: {},

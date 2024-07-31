@@ -1,13 +1,10 @@
 import '../../index.scss';
-import logo from '../../../../assets/code.png';
+import logo from '../../../../../public/assets/logo.png';
 import { Link } from 'react-router-dom'
+import { NavChildren } from '../../types';
 
-interface NavChildren {
-  isFullscreen: boolean;
-}
 
 const Navbar: React.FC<NavChildren> = ({ isFullscreen }) => {
-  // console.log(isFullscreen);
 
   return (
     <div className={`navbar-container ${isFullscreen} ? 'fullscreen' : ''`}>

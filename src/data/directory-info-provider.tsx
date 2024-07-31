@@ -1,11 +1,5 @@
-import { createContext, useState, ReactNode, FC } from "react";
-
-interface DirectoryContextType {
-  pointer: string;
-  dirInfo: DirInfoType | undefined;
-  updatePointer: (pointer: string) => void;
-  updateDirInfo: (info: DirInfoType) => void;
-}
+import { createContext, useState, FC } from "react";
+import { DirectoryContextType, DirectoryProviderProps, DirInfoType } from "./types";
 
 export const DirectoryContext = createContext<DirectoryContextType>({
   pointer: '',
@@ -14,14 +8,7 @@ export const DirectoryContext = createContext<DirectoryContextType>({
   updateDirInfo: () => { },
 });
 
-interface DirectoryProviderProps {
-  children: ReactNode;
-}
 
-interface DirInfoType {
-  language: string;
-  title: string;
-}
 
 const DirectoryInfoProvider: FC<DirectoryProviderProps> = ({ children }) => {
   const [pointer, setPointer] = useState<string>('');

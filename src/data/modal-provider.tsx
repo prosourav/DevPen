@@ -1,12 +1,7 @@
-import React, { createContext, useState, ReactNode } from "react";
+import React, { createContext, useState } from "react";
+import { ModalContextType, ModalProviderProps, ModalType } from "./types";
 
-type ModalType = string | null;
 
-export interface ModalContextType {
-  openModal: (type: ModalType) => void;
-  closeModal: () => void;
-  activateModal: ModalType;
-}
 
 export const ModalContext = createContext<ModalContextType>({
   openModal: () => { },
@@ -14,9 +9,7 @@ export const ModalContext = createContext<ModalContextType>({
   activateModal: null,
 });
 
-interface ModalProviderProps {
-  children: ReactNode;
-}
+
 
 const ModalProvider: React.FC<ModalProviderProps> = ({ children }) => {
   const [modalType, setModalType] = useState<ModalType>(null);

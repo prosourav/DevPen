@@ -1,12 +1,6 @@
 import { languages } from '../../../../constants';
 import useForm from '../../../../hooks/useForm';
 
-interface CreatePlayGroundProps {
-  isModalOpen: true;
-  closeModal: () => void;
-  createFile: (data: Record<string, string>, success: (isTrue: boolean) => void) => void;
-}
-
 const initialValue = {
   file: '',
   language: 'js',
@@ -25,7 +19,7 @@ const CreateFileModal: React.FC<CreatePlayGroundProps> = ({ isModalOpen, closeMo
     }
 
     if (!err) {
-      createFile(data, (isTrue: boolean) => {
+      createFile?.(data, (isTrue: boolean) => {
         if (isTrue) {
           reset();
           return closeModal();

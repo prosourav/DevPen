@@ -2,13 +2,13 @@
 import React, { useEffect } from 'react';
 import useForm from '../../../../hooks/useForm';
 
-interface EditModalProps {
-  isModalOpen: boolean;
-  closeModal: () => void;
-  updateFolder: (data: string, success: (isTrue: boolean) => void) => void;
-  info: string;
-  isFile: boolean;
-}
+// interface EditModalProps {
+//   isModalOpen: boolean;
+//   closeModal: () => void;
+//   updateFolder: (data: string, success: (isTrue: boolean) => void) => void;
+//   info: string;
+//   isFile: boolean;
+// }
 
 
 const EditModal: React.FC<EditModalProps> = ({ isModalOpen, closeModal, updateFolder, info, isFile }) => {
@@ -51,7 +51,11 @@ const EditModal: React.FC<EditModalProps> = ({ isModalOpen, closeModal, updateFo
         <span className="material-icons">close</span>
       </button>
       <form onSubmit={handleSubmit}>
-        <h3>Update Title <strong style={{ color: 'rgb(136, 136, 186' }}>'{info}'</strong></h3>
+        <h3>Update Title
+          <span className='title1'>
+            '{info}'
+          </span>
+        </h3>
 
         <div className='modal-row'>
           <label htmlFor="file">Enter New Title</label>
