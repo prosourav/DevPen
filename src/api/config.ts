@@ -6,6 +6,11 @@ const url = import.meta.env.VITE_BASE_URL;
 const host = import.meta.env.VITE_BASE_HOST;
 
 
+console.log('key',key);
+console.log('path',path);
+console.log('url',url);
+console.log('host',host);
+
 export const request = axios.create({
   baseURL: `${url}/${path}`,
   params: {
