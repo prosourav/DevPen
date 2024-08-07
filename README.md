@@ -1,5 +1,5 @@
 ## [DEVPEN](https://docs.google.com/document/d/1yVhJXEnkWH70TxCaL_szUhj-4v18Bo4JHap2TjdchDI/edit?usp=sharing)
-#### 
+#### A simple code editor for developers
 
 This project delivers a robust platform for developers to efficiently write, store, and manage code files in Python, JavaScript, Java, and C++. The editor offers a user-friendly interface for creating, editing, and deleting files and folders, with seamless data persistence within the browser. Users can also effortlessly import and export code and input/output files, enhancing workflow flexibility.
 
